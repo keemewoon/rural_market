@@ -10,6 +10,42 @@
 <%@ include file="/inc/asset.jsp"%>
 
 <style>
+.img {
+	/* border: 1px solid black; */
+
+}
+
+.tbl {
+	display: inline;
+	height: 1000px;
+	width: 600px;
+/* 	border: 1px solid red; */
+	margin-right: 200px;
+	margin-botton: 1000px;
+}
+
+.detail {
+	height: 525px;
+	width: 1000px;
+	border: 1px solid #F0F1F2;
+	padding: 40px;
+}
+
+.title {
+	margin-botton: 30px;
+	font-weight: bold;
+}
+
+.maintitle {
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
+.date {
+	width: 1000px;
+	margin-bottom: 20px;
+	color: #b0b0b0;
+}
 </style>
 </head>
 <body>
@@ -37,44 +73,60 @@
 		<div class="container">
 
 
-			<table class="table">
-				<tr>
-					${dto.brandName}
-					<th>분류</th>
-					<td>${dto.marketInfo}</td>
-				</tr>
-				<tr>
-					<th>제품명</th>
-					<td>${dto.name}</td>
+			<div class="favourite-place place-padding">
+				<div align="right" class="date">${dto.regDate}</div>
+				<table class="ta">
 
-				</tr>
-
-				<tr>
-					<th>홈페이지</th>
-					<td>${dto.site}</td>
-				</tr>
-				<tr>
-					<th>전화번호</th>
-					<td>${dto.tel}</td>
-				</tr>
-				<tr>
-					<th>주소</th>
-					<td>${dto.address}</td>
-
-				</tr>
-				<tr>
-					<th>상세내용</th>
-					<td>${dto.detail}</td>
-				</tr>
-
-
-
-			</table>
-
-
-
+					<table class="tbl">
+						<tr>
+							<th><h1 class="maintitle">${dto.brandName}</h1></th>
+						</tr>
+						<tr>
+							<th>분류</th>
+							<td>${dto.marketInfo}> ${dto.name}</td>
+						</tr>
+						<tr>
+							<th>번호</th>
+							<td>${dto.tel}</td>
+						</tr>
+						<tr>
+							<th>담당자</th>
+							<td>${dto.farmername}</td>
+						</tr>
+						<tr>
+							<th>홈페이지</th>
+							<td>${dto.site}</td>
+						</tr>
+						<tr>
+							<th>좋아요</th>
+							<td>좋아요</td>
+						</tr>
+						<tr>
+							<th>공유</th>
+							<td>공유</td>
+						</tr>
+					</table>
+					<img src="/rural/assets/img/market/${dto.image}" class="img">
 
 
+
+				</table>
+
+				<h3 class="title">상세내용</h3>
+				<div class="detail">${dto.detail}</div>
+
+
+
+				<button type="button" class="btn btn-success"onclick="location.href='/rural/market/edit.do?seq=${dto.seq}';">수정하기</button>
+				<button type="submit" id="del" class="btn btn-secondary" onclick="location.href='/rural/market/del.do?seq=${dto.seq}';">삭제하기</button>
+
+
+
+
+
+
+
+			</div>
 		</div>
 
 
@@ -85,6 +137,10 @@
 
 	<script>
 
+	/* 	$('#del').click(function() {
+			alert('ㅎㅇㅎㅇ');
+		});
+ */
 	</script>
 </body>
 </html>

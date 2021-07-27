@@ -9,31 +9,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/market/edit.do")
-public class Edit extends HttpServlet {
+@WebServlet("/market/del.do")
+public class Del extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+		// 할일(삭제하시겠습니까? 작업)
+		// 1. 데이터 가져오기 (seq)
+		// 2. jsp 호출하기 + 글 번호 전달하기
 
-		//할일
-		//1. 데이터 가져오기(seq)
-		//2. DB작업 > DAO 위임 > select where seq
-		//3. BoardDTO 반환 > JSP 호출하기 + 전달하기
-
-		//1.
+		// 1.
 		String seq = req.getParameter("seq");
 
-		//2.
-		MarketDAO dao = new MarketDAO();
-		MarketDTO dto = dao.get(seq);
+		// 2.
+		req.setAttribute("seq", seq);
 
-		//3.
-		req.setAttribute("dto", dto);
-
-
-
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/market/edit.jsp");
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/market/del.jsp");
 		dispatcher.forward(req, resp);
 
 	}

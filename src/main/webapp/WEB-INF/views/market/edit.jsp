@@ -40,15 +40,13 @@ h3 {
 			</div>
 		</div>
 	</div>
-
-
 	<!-- 구현부 -->
 	<div class="section-padding2">
 		<div class="container">
 
 
-			<form method="POST" action="/rural/market/addok.do">
-				<h3>등록 양식</h3>
+			<form method="POST" action="/rural/market/editok.do">
+				<h3>수정 하기</h3>
 				<table class="table">
 					<tr>
 						<th>분류</th>
@@ -65,29 +63,30 @@ h3 {
 					</tr>
 					<tr>
 						<th>제품명</th>
-						<td colspan="3"><input type="text" name="name"
-							id="name" class="form-control" required placeholder="제품명을 입력하세요."></td>
+						<td colspan="3"><input type="text" name="name" id="name"
+							class="form-control" required value="${dto.name}"></td>
 					</tr>
 					<tr>
 						<th>브랜드명</th>
 						<td colspan="3"><input type="text" name="brandName"
-							id="brandName" class="form-control" required></td>
+							id="brandName" class="form-control" required
+							value="${dto.brandName}"></td>
 					</tr>
 					<tr>
 						<th>홈페이지</th>
-						<td colspan="3"><input type="text" name="site"
-							id="site" class="form-control" required></td>
+						<td colspan="3"><input type="text" name="site" id="site"
+							class="form-control" required value="${dto.site}"></td>
 					</tr>
 					<tr>
 						<th>전화번호</th>
 						<td colspan="3"><input type="text" name="tel" id="tel"
-							class="form-control" required>
+							class="form-control" required value="${dto.tel}">
 						<td></td>
 					</tr>
 					<tr>
 						<th>주소</th>
-						<td colspan="2"><input type="text" name="address" id="address"
-							class="form-control" required></td>
+						<td colspan="2"><input type="text" name="address"
+							id="address" class="form-control" required value="${dto.address}"></td>
 						<td><input type="button" value="주소찾기"
 							class="btn btn-secondary"></td>
 
@@ -95,28 +94,33 @@ h3 {
 					<tr>
 						<th>상세내용</th>
 						<td colspan="3"><textarea name="detail" id="detail"
-								class="form-control" required></textarea></td>
+								class="form-control" required>${dto.detail}</textarea></td>
 					</tr>
 					<tr>
 						<th>썸네일 이미지 첨부</th>
 						<td colspan="3"><input type="file" name="image" id="image"
-							class="form-control" required accept=".gif, .jpg, .png"></td>
+							class="form-control" required accept=".gif, .jpg, .png"
+							value="${dto.image}"></td>
 					</tr>
 					<tr>
 						<th>세부 이미지 첨부</th>
-						<td colspan="3"><input type="file" name="image" id="image" class="form-control" required accept=".gif, .jpg, .png"></td>
+						<td colspan="3"><input type="file" name="image" id="image"
+							class="form-control" required accept=".gif, .jpg, .png"></td>
 					</tr>
 
 
 				</table>
 
 				<div class="btns">
-					<button type="submit" class="btn btn-success">등록하기</button>
+					<button type="submit" class="btn btn-success">수정하기</button>
 					<button type="button" class="btn btn-secondary"
 						onclick="location.href='/rurla/market/list.do';">뒤로가기</button>
 				</div>
 
-				</form>
+				<input type="hidden" name="seq" value="${dto.seq}">
+
+			</form>
+
 		</div>
 
 
@@ -127,20 +131,7 @@ h3 {
 
 	<script>
 
-	let index = 1;
-
-	$("#btnAdd").click(function() {
-
-		index++;
-
-		$("table tbody").append("<tr><th>이미지: </th><td><input type=\"file\" name=\"attach" + index + "\" class=\"form-control\"><input type=\"button\" value=\"delete\" class=\"btn btn-default\" onclick=\"delBtn();\" accept=\".gif, .jpg, .png\"></td></tr>");
-
-	});
-
-	function delBtn() {
-		$(event.srcElement).parent().parent().remove();
-	}
-
+		$('#marketInfo').val("${dto.marketInfo}");
 
 	</script>
 </body>

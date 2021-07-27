@@ -15,8 +15,15 @@ public class MarketDTO {
 	private String image;
 
 	private String isnew; //새글 표시
+	private String farmername;
 
 
+	public String getFarmername() {
+		return farmername;
+	}
+	public void setFarmername(String farmername) {
+		this.farmername = farmername;
+	}
 	public String getIsnew() {
 		return isnew;
 	}

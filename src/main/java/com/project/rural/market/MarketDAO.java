@@ -121,7 +121,7 @@ public class MarketDAO {
 
 		try {
 
-			String sql = "select b.*, (select name from tblUser where id = b.id) as name from tblMarket b where seq = ?";
+			String sql = "select b.*, (select name from tblUser where id = b.id) as farmername from tblMarket b where seq = ?";
 
 			pstat = conn.prepareStatement(sql);
 			pstat.setString(1, seq);
@@ -129,7 +129,6 @@ public class MarketDAO {
 			rs = pstat.executeQuery();
 
 			if (rs.next()) {
-
 
 				MarketDTO dto = new MarketDTO();
 
@@ -144,6 +143,7 @@ public class MarketDAO {
 				dto.setDetail(rs.getString("detail"));
 				dto.setRegDate(rs.getString("regDate"));
 				dto.setImage(rs.getString("image"));
+				dto.setFarmername(rs.getString("farmername"));
 
 				return dto;
 
@@ -157,6 +157,64 @@ public class MarketDAO {
 
 
 		return null;
+	}
+
+
+
+	//Market > delOk 서블릿
+	public int del(String seq) {
+
+
+		try {
+
+			String sql = "delete from tblMarket where seq = ?";
+
+			pstat = conn.prepareStatement(sql);
+
+			pstat.setString(1, seq);
+
+			return pstat.executeUpdate();
+
+		} catch (Exception e) {
+			System.out.println("MarketDAO.del()");
+			e.printStackTrace();
+		}
+
+		return 0;
+	}
+
+
+
+	//market > EditOk서블릿
+	public int edit(MarketDTO dto) {
+
+		try {
+
+			String sql = "update tblMarket set marketinfo = ?, name = ?, brandname = ? , tel = ?, address = ? , site = ?, detail = ? , image  =? where seq = ?";
+
+
+			pstat = conn.prepareStatement(sql);
+
+			pstat.setString(1, dto.getMarketInfo());
+			pstat.setString(2, dto.getName());
+			pstat.setString(3, dto.getBrandName());
+			pstat.setString(4, dto.getTel());
+			pstat.setString(5, dto.getAddress());
+			pstat.setString(6, dto.getSite());
+			pstat.setString(7, dto.getDetail());
+			pstat.setString(8, dto.getImage());
+			pstat.setString(9, dto.getSeq());
+
+			return pstat.executeUpdate();
+
+
+		} catch (Exception e) {
+			System.out.println("MarketDAO.edit()");
+			e.printStackTrace();
+		}
+
+
+		return 0;
 	}
 
 

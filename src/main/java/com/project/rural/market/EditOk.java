@@ -2,6 +2,7 @@ package com.project.rural.market;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,19 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("/market/addok.do")
-public class AddOk extends HttpServlet {
+
+@WebServlet("/market/editok.do")
+public class EditOk extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		// 할일
-		// 1. 인코딩
-		// 2. 데이터 가져오기(제목, 내용, 태그)
-		// 3. DB작엄 > DAO위임 > insert
-		// 4. 결과 > 후처리
+		// 1. 데이터 가져오기
+		// 2. DB 작업 > DAO 위임 > update
+		// 3. 결과 처리
 
-		// 2.
+		// 1.
+		String seq = req.getParameter("seq");
 		String marketInfo = req.getParameter("marketInfo");
 		String name = req.getParameter("name");
 		String brandName = req.getParameter("brandName");
@@ -31,13 +33,13 @@ public class AddOk extends HttpServlet {
 		String image = req.getParameter("image");
 		String site = req.getParameter("site");
 
-		// 3.
+		// 2.
 		MarketDAO dao = new MarketDAO();
 		MarketDTO dto = new MarketDTO();
 
 		HttpSession session = req.getSession();
 
-		dto.setId(session.getAttribute("id").toString());
+		dto.setSeq(seq);
 		dto.setMaketInfo(marketInfo);
 		dto.setName(name);
 		dto.setBrandName(brandName);
@@ -47,14 +49,16 @@ public class AddOk extends HttpServlet {
 		dto.setImage(image);
 		dto.setSite(site);
 
-		int result = dao.add(dto);
+		int result = dao.edit(dto);
 
-		// 4.성공 or 실패
+		// 3.
 		if (result == 1) {
-			resp.sendRedirect("/rural/market/list.do");
+			resp.sendRedirect("/rural/market/view.do?seq=" + seq);
 		} else {
-			resp.sendRedirect("/rural/market/add.do");
+			resp.sendRedirect("/rural/market/edit.do?seq=" + seq);
 		}
+
+
 
 	}
 
