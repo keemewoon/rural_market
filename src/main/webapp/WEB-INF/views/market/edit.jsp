@@ -10,14 +10,22 @@
 <%@ include file="/inc/asset.jsp"%>
 
 <style>
-h3 {
-	margin-bottom: 50px;
-	font-weight: bold;
-}
 
-.table #detail {
-	height: 300px;
-}
+	h3 {
+		margin-bottom: 50px;
+		font-weight: bold;
+	}
+
+	.table #detail {
+		height: 300px;
+	}
+
+	.btns {
+		margin: 30px;
+	}
+
+
+
 </style>
 </head>
 <body>
@@ -111,10 +119,9 @@ h3 {
 
 				</table>
 
-				<div class="btns">
-					<button type="submit" class="btn btn-success">수정하기</button>
-					<button type="button" class="btn btn-secondary"
-						onclick="location.href='/rurla/market/list.do';">뒤로가기</button>
+				<div class="row justify-content-md-center" style="padding: 30px;">
+					<button type="submit" class="btn btn-success btns">수정완료</button>
+					<button type="button" class="btn btn-secondary btns" onclick='history.back()';">뒤로가기</button>
 				</div>
 
 				<input type="hidden" name="seq" value="${dto.seq}">

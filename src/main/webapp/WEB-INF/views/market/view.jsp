@@ -15,23 +15,31 @@
 
 }
 
+table>tbody>tr:nth-child(2)>th {
+	width: 150px;
+}
+
+table>tbody>tr:nth-child(2)>td:nth-child(2) {
+	width: 150px;
+}
+
 .tbl {
-	display: inline;
-	height: 1000px;
-	width: 600px;
-/* 	border: 1px solid red; */
-	margin-right: 200px;
-	margin-botton: 1000px;
+
+
+	/* padding: 1000px; */
+	width: 700px;
+	margin-botton: 30px;
 }
 
 .detail {
 	height: 525px;
-	width: 1000px;
-	border: 1px solid #F0F1F2;
+	width: 1150px;
+	border: 1px solid #DEE2E6;
 	padding: 40px;
 }
 
 .title {
+	margin-top : 100px;
 	margin-botton: 30px;
 	font-weight: bold;
 }
@@ -39,13 +47,20 @@
 .maintitle {
 	margin-bottom: 5px;
 	font-weight: bold;
+	color: #404040;
 }
 
 .date {
-	width: 1000px;
-	margin-bottom: 20px;
 	color: #b0b0b0;
+	text-align: right;
 }
+
+.btns {
+	margin: 30px;
+}
+
+
+
 </style>
 </head>
 <body>
@@ -73,54 +88,77 @@
 		<div class="container">
 
 
-			<div class="favourite-place place-padding">
-				<div align="right" class="date">${dto.regDate}</div>
-				<table class="ta">
+			<div class="favourite-place place-padding2">
 
-					<table class="tbl">
-						<tr>
-							<th><h1 class="maintitle">${dto.brandName}</h1></th>
-						</tr>
-						<tr>
+				<table class="table">
+					<tr>
+						<th colspan="2"><h1 class="maintitle">${dto.brandName}</h1></th>
+						<td class="date">${dto.regDate}</td>
+					</tr>
+				</table>
+				<div class="row justify-content-md-center place-padding2">
+					<table class="tbl justify-content-md-center">
+
 							<th>분류</th>
-							<td>${dto.marketInfo}> ${dto.name}</td>
+							<td>${dto.marketInfo}>${dto.name}</td>
+							<td></td>
 						</tr>
 						<tr>
 							<th>번호</th>
 							<td>${dto.tel}</td>
+							<td></td>
 						</tr>
 						<tr>
 							<th>담당자</th>
 							<td>${dto.farmername}</td>
+							<td></td>
 						</tr>
 						<tr>
 							<th>홈페이지</th>
 							<td>${dto.site}</td>
+							<td></td>
 						</tr>
 						<tr>
 							<th>좋아요</th>
 							<td>좋아요</td>
+							<td></td>
 						</tr>
 						<tr>
 							<th>공유</th>
 							<td>공유</td>
+							<td></td>
 						</tr>
 					</table>
 					<img src="/rural/assets/img/market/${dto.image}" class="img">
+				</div>
 
 
-
+				<table class="table">
+					<tr>
+						<th colspan="2"><h3 class="title">상세내용</h3></th>
+					</tr>
 				</table>
+				<div class="row justify-content-md-center place-padding2">
 
-				<h3 class="title">상세내용</h3>
-				<div class="detail">${dto.detail}</div>
+					<div class="detail">${dto.detail}</div>
+				</div>
 
+				<c:if test="${not empty id}">
+					<c:if test="${dto.id == id}">
+						<div class="row justify-content-md-center" style="padding: 30px;">
+							<button type="button" class="btn btn-success btns"
+								onclick="location.href='/rural/market/edit.do?seq=${dto.seq}';">수정하기</button>
+							<button type="submit" id="del" class="btn btn-secondary btns"
+								onclick="location.href='/rural/market/del.do?seq=${dto.seq}';">삭제하기</button>
+						</div>
+					</c:if>
+				</c:if>
 
-
-				<button type="button" class="btn btn-success"onclick="location.href='/rural/market/edit.do?seq=${dto.seq}';">수정하기</button>
-				<button type="submit" id="del" class="btn btn-secondary" onclick="location.href='/rural/market/del.do?seq=${dto.seq}';">삭제하기</button>
-
-
+				<table class="table">
+					<tr>
+						<th colspan="2"><h3 class="title" id="qna">문의 사항</h3></th>
+					</tr>
+				</table>
 
 
 
@@ -136,11 +174,10 @@
 	<%@ include file="/inc/init.jsp"%>
 
 	<script>
-
-	/* 	$('#del').click(function() {
-			alert('ㅎㅇㅎㅇ');
-		});
- */
+		/* 	$('#del').click(function() {
+				alert('ㅎㅇㅎㅇ');
+			});
+		 */
 	</script>
 </body>
 </html>
