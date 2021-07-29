@@ -53,8 +53,8 @@
 					</tr>
 				</thead>
 				<tbody>
-				<c:if test="${id == id}">
-					<c:forEach items="${list}" var="dto">
+
+					<c:forEach items="${addlist}" var="dto">
 						<tr>
 							<td name="expInfo">${dto.marketInfo}</td>
 							<td name="startDate endDate">${dto.name}</td>
@@ -66,7 +66,6 @@
 							<td><button type="button" class="btn btn-primary btn-lg" onclick="location.href='/rural/market/view.do?seq=${dto.seq}#qna';">문의내역</button></td>
 						</tr>
 					</c:forEach>
-				</c:if>
 
 
 				</tbody>

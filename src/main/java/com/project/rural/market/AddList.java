@@ -20,15 +20,21 @@ public class AddList extends HttpServlet {
 		//1. seq가져오기
 		HttpSession session = req.getSession();
 		String seq = req.getParameter("seq");
+		String id = (String)session.getAttribute("id");
 
 		//2.
 		MarketDAO dao = new MarketDAO();
 		MarketDTO dto = dao.get(seq);
 
-		ArrayList<MarketDTO> list = dao.list();
-		req.setAttribute("list", list);
 
-		req.setAttribute("dto", dto);
+		//dto.setId(id);
+
+		ArrayList<MarketDTO> addlist = dao.addlist(id);
+
+		//add list전달
+		req.setAttribute("addlist", addlist);
+
+
 
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/market/addlist.jsp");
 		dispatcher.forward(req, resp);

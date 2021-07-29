@@ -1,10 +1,12 @@
 package com.project.rural.market;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.project.rural.DBUtil;
 
@@ -68,11 +70,25 @@ public class MarketDAO {
 
 
 	//Market > list서블릿
-	public ArrayList<MarketDTO> list() {
+	public ArrayList<MarketDTO> list(HashMap<String, String> map) {
 
 		try {
 
-			String sql = "select * from tblMarket order by seq desc";
+			//메소드에서 하는 일
+			//1. 목록보기
+			//2. 검색하기
+
+			String where = "";
+
+			if(map.get("isSearch").equals("y")) {
+
+				//검색
+
+				where = String.format(" where brandName like '%%%s%%' ",map.get("search"));
+
+			}
+
+			String sql = String.format("select * from tblMarket %s order by seq desc", where);
 
 			pstat = conn.prepareStatement(sql);
 
@@ -103,6 +119,7 @@ public class MarketDAO {
 				list.add(dto);
 
 			}
+			//System.out.println("list: " + list);
 			return list;
 
 		} catch (Exception e) {
@@ -215,6 +232,59 @@ public class MarketDAO {
 
 
 		return 0;
+	}
+
+
+	//market > addlist서블릿
+
+
+
+	public ArrayList<MarketDTO> addlist(String id) {
+
+		try {
+
+			System.out.println("id: " + id);
+			String sql = String.format("select * from tblMarket where id='%s' order by seq desc", id);
+
+			pstat = conn.prepareStatement(sql);
+
+			rs = pstat.executeQuery();
+
+			ArrayList<MarketDTO> addlist = new ArrayList<MarketDTO>(); //옮겨 담을 큰 상자
+
+			while (rs.next()) {
+
+				//레코드 1줄 -> BoardDTO 한개
+
+				MarketDTO dto = new MarketDTO();
+
+				dto.setSeq(rs.getString("seq"));
+				dto.setId(rs.getString("id"));
+				dto.setMaketInfo(rs.getString("marketInfo"));
+				dto.setName(rs.getString("name"));
+				dto.setBrandName(rs.getString("brandname"));
+				dto.setTel(rs.getString("tel"));
+				dto.setAddress(rs.getString("address"));
+				dto.setSite(rs.getString("site"));
+				dto.setDetail(rs.getString("detail"));
+				dto.setRegDate(rs.getString("regDate"));
+				dto.setImage(rs.getString("image"));
+
+				//리스트에 옮겨담기
+				addlist.add(dto);
+
+
+			}
+			System.out.println("addlist: " + addlist);
+			return addlist;
+
+
+		} catch (Exception e) {
+			System.out.println("BoardDAO.addlist()");
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 
