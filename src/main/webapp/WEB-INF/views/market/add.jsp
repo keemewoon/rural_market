@@ -86,10 +86,11 @@ h3 {
 					</tr>
 					<tr>
 						<th>주소</th>
-						<td colspan="2"><input type="text" name="address" id="address"
-							class="form-control" required></td>
-						<td><input type="button" value="주소찾기"
-							class="btn btn-secondary"></td>
+						<td colspan="2"><input type="text" name="address" id="address" class="form-control" required></td>
+						<td><input class="btn btn-secondary" type="button" onClick="goPopup();" value="주소검색"></td>
+
+
+						<!-- <td><input type="button" value="주소찾기"class="btn btn-secondary"></td> -->
 
 					</tr>
 					<tr>
@@ -113,7 +114,7 @@ h3 {
 				<div class="btns">
 					<button type="submit" class="btn btn-success">등록하기</button>
 					<button type="button" class="btn btn-secondary"
-						onclick="location.href='/rurla/market/list.do';">뒤로가기</button>
+						onclick="history.back();">뒤로가기</button>
 				</div>
 
 				</form>
@@ -137,9 +138,21 @@ h3 {
 
 	});
 
+
 	function delBtn() {
 		$(event.srcElement).parent().parent().remove();
 	}
+
+	//주소 검색
+    function goPopup(){
+       var pop = window.open("<%= request.getContextPath() %>/inc/jusoPopup.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes");
+    }
+
+    function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn,detBdNmList,bdNm,bdKdcd,siNm,sggNm,emdNm,liNm,rn,udrtYn,buldMnnm,buldSlno,mtYn,lnbrMnnm,lnbrSlno,emdNo){
+       $("#address").val(roadAddrPart1 + ", " + addrDetail);
+    }
+
+
 
 
 	</script>

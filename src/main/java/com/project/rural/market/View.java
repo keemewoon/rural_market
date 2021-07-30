@@ -1,6 +1,7 @@
 package com.project.rural.market;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -29,8 +30,15 @@ public class View extends HttpServlet {
 		MarketDAO dao = new MarketDAO();
 		MarketDTO dto = dao.get(seq);
 
+
+		//2.5
+		//- 현재보고 있는 글에 달린 QnA목록 가져오기
+		ArrayList<MarketQADTO> qlist = dao.listQna(seq); //현재 글번호(= 댓글의 부모글 번호)
+
+
 		//3.
 		req.setAttribute("dto", dto);
+		req.setAttribute("qlist", qlist);
 
 
 

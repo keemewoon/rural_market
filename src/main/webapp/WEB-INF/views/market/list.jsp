@@ -54,6 +54,10 @@ table tr th {
 	position: relative;
 	top: 70px;
 }
+
+.nav-item {
+	cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -94,7 +98,6 @@ table tr th {
 						<th>키워드 검색</th>
 						<td><input type="text" id="search" name="search"
 							class="form-control col-lg-13" placeholder="검색어를 입력해주세요."></td>
-
 					</tr>
 				</table>
 
@@ -114,17 +117,28 @@ table tr th {
 			<div class="favourite-place section-padding2">
 				<div class="container">
 
+					<!-- 		list.do?category=주말농장&search=키워드
+			list.do?category=주말농장&search=키워드&avilable=y -->
+
 					<div class="section-padding2">
 						<div class="container">
+
+
+							<form name="navsearch" method="GET" action="/rural/market/list.do">
+
+								<input type="submit" name="marketInfo" id="marketInfo" value="쌀/잡곡">
+
+
 							<ul class="nav nav-tabs">
-								<li class="nav-item"><a class="nav-link active" href="#">쌀/잡곡</a></li>
-								<li class="nav-item"><a class="nav-link disabled" href="#">과일/견과</a></li>
-								<li class="nav-item"><a class="nav-link disabled" href="#">채소/버섯</a></li>
-								<li class="nav-item"><a class="nav-link disabled" href="#">정육/계란</a></li>
-								<li class="nav-item"><a class="nav-link disabled" href="#">김치</a></li>
-								<li class="nav-item"><a class="nav-link disabled" href="#">홍삼/건강식품</a></li>
-								<li class="nav-item"><a class="nav-link disabled" href="#">전통주</a></li>
+								<li class="nav-item"><a id="nav1" name="nav1" type="submit" class="nav-link active">쌀/잡곡</a></li>
+								<li class="nav-item"><a id="nav2" name="nav2" type="submit" class="nav-link disabled">과일/견과</a></li>
+								<li class="nav-item"><a id="nav3" name="nav3" type="submit" class="nav-link disabled">채소/버섯</a></li>
+								<li class="nav-item"><a id="nav4" name="nav4" type="submit" class="nav-link disabled">정육/계란</a></li>
+								<li class="nav-item"><a id="nav5" name="nav5" type="submit" class="nav-link active">김치</a></li>
+								<li class="nav-item"><a id="nav6" name="nav6" type="submit" class="nav-link disabled">홍삼/건강식품</a></li>
+								<li class="nav-item"><a id="nav7" name="nav7" type="submit" class="nav-link disabled">전통주</a></li>
 							</ul>
+							</form>
 
 
 							<div class="row justify-content-between"
@@ -147,7 +161,9 @@ table tr th {
 								<!-- 상품 리스트 -->
 								<c:if test="${list.size() == 0}">
 									<div>
-										<div class=" alert alert-light " style="padding: 30px; text-align: center;">직거래 내역이 없습니다.</div>
+										<div class=" alert alert-light "
+											style="padding: 30px; text-align: center;">직거래 내역이
+											없습니다.</div>
 									</div>
 								</c:if>
 
@@ -204,10 +220,12 @@ table tr th {
 	<%@ include file="/inc/init.jsp"%>
 
 	<script>
+
 		<c:if test="${map.isSearch == 'y'}">
-		//상태 복원
-		$('#search').val('${map.search}');
+			//상태 복원
+			$('#search').val('${map.search}');
 		</c:if>
+
 	</script>
 </body>
 </html>

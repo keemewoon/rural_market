@@ -19,13 +19,11 @@ table>tbody>tr:nth-child(2)>th {
 	width: 150px;
 }
 
-table>tbody>tr:nth-child(2)>td:nth-child(2) {
-	width: 150px;
+#listQna>tr {
+	width: 300px;
 }
 
 .tbl {
-
-
 	/* padding: 1000px; */
 	width: 700px;
 	margin-botton: 30px;
@@ -39,7 +37,7 @@ table>tbody>tr:nth-child(2)>td:nth-child(2) {
 }
 
 .title {
-	margin-top : 100px;
+	margin-top: 100px;
 	margin-botton: 30px;
 	font-weight: bold;
 }
@@ -59,8 +57,26 @@ table>tbody>tr:nth-child(2)>td:nth-child(2) {
 	margin: 30px;
 }
 
+.qna {
+	width: 1150px;
+	margin-bottom: 20px
+}
 
+#qnatitle {
+	margin-bottom: 15px;
+}
 
+.qnalist {
+	width: 1150px;
+}
+
+#listQna>tr>th:nth-child(1) {
+	width: 550px;
+}
+
+.qbody {
+	padding: 40px;
+}
 </style>
 </head>
 <body>
@@ -99,9 +115,9 @@ table>tbody>tr:nth-child(2)>td:nth-child(2) {
 				<div class="row justify-content-md-center place-padding2">
 					<table class="tbl justify-content-md-center">
 
-							<th>분류</th>
-							<td>${dto.marketInfo}>${dto.name}</td>
-							<td></td>
+						<th>분류</th>
+						<td>${dto.marketInfo}>${dto.name}</td>
+						<td></td>
 						</tr>
 						<tr>
 							<th>번호</th>
@@ -111,6 +127,11 @@ table>tbody>tr:nth-child(2)>td:nth-child(2) {
 						<tr>
 							<th>담당자</th>
 							<td>${dto.farmername}</td>
+							<td></td>
+						</tr>
+						<tr>
+							<th>주소</th>
+							<td>${dto.address}</td>
 							<td></td>
 						</tr>
 						<tr>
@@ -154,11 +175,103 @@ table>tbody>tr:nth-child(2)>td:nth-child(2) {
 					</c:if>
 				</c:if>
 
-				<table class="table">
-					<tr>
-						<th colspan="2"><h3 class="title" id="qna">문의 사항</h3></th>
-					</tr>
-				</table>
+
+				<div class="row justify-content-between"
+					style="padding: 25px; margin-top: 80px;">
+					<div>
+						<h3 style="font-weight: bold;">문의사항</h3>
+					</div>
+					<button type="button" class="btn btn-success"
+						onclick="location.href='/rural/market/add.do';">글쓰기</button>
+				</div>
+
+
+				<div class="row justify-content-md-center place-padding2">
+
+
+					<!-- QnA쓰기 form -->
+					<form method="POST" action="/rural/market/addqna.do">
+						<table id="addQna" class="qna">
+							<tr>
+								<td><input type="text" name="title" id="title"
+									class="form-control" required placeholder="문의사항 제목을 입력해주세요."></td>
+							</tr>
+							<tr>
+								<td><textarea name="detailq" id="detailq"
+										class="form-control" required placeholder="문의사항 내용을 입력해주세요."></textarea></td>
+							</tr>
+
+						</table>
+						<div class="row justify-content-md-center"
+							style="margin-bottom: 30px;">
+							<input class="btn btn-secondary" type="submit" value="등록하기">
+						</div>
+
+						<!-- 현재 보고있는 글의 번호 -->
+						<input type="hidden" name="pseq" value="${dto.seq}">
+					</form>
+
+
+
+					<!-- QnA목록보기 -->
+					<table class="table text-center  qnalist">
+						<thead id="listQna" class="thead-light text-center">
+							<tr>
+								<th scope="col">제목</th>
+								<th scope="col">날짜</th>
+								<th scope="col">작성자</th>
+								<th scope="col-1">처리</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							<!-- qna리스트확인 -->
+
+							<c:forEach items="${qlist}" var="qdto">
+								<tr>
+									<td name="title endDate">${qdto.title}</td>
+									<td name="detailq">${qdto.regdateq}</td>
+									<td name="detailq">${qdto.name}</td>
+
+									<td>
+										<button class="btn btn-success btn-lg" type="button"
+											data-toggle="collapse" data-target="#${qdto.seq}"
+											aria-expanded="false" aria-controls="${qdto.seq}">
+											답변하기</button>
+									</td>
+								</tr>
+								<form method="POST" action="/rural/market/addreqna.do">
+									<tr>
+										<td colspan="4">
+											<div class="collapse" id="${qdto.seq}">
+												<div class="qbody">Q. ${qdto.detailq}</div>
+												<div class="qbody">A. ${qdto.detaila}</div>
+												<textarea name="detaila" id="detaila" class="form-control"
+													required placeholder="문의사항 답변을 입력해주세요."></textarea>
+
+												<input class="btn btn-secondary" type="submit" value="답변달기"
+													onclick="location.href='/rural/market/list.do';">
+
+											<!-- 현재 보고있는 글의 번호 -->
+											</div>
+											</div><input type="hidden" name="seq" value="${qdto.seq}">
+										</td>
+									</tr>
+								</form>
+							</c:forEach>
+						</tbody>
+					</table>
+
+
+					<c:if test="${qlist.size() == 0}">
+						<div>
+							<div class=" alert alert-light"
+								style="padding: 30px; text-align: center;">문의사항이 없습니다.</div>
+						</div>
+					</c:if>
+
+
+				</div>
 
 
 
@@ -174,10 +287,7 @@ table>tbody>tr:nth-child(2)>td:nth-child(2) {
 	<%@ include file="/inc/init.jsp"%>
 
 	<script>
-		/* 	$('#del').click(function() {
-				alert('ㅎㅇㅎㅇ');
-			});
-		 */
+
 	</script>
 </body>
 </html>

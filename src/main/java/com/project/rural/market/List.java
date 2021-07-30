@@ -22,7 +22,6 @@ public class List extends HttpServlet {
 		String search = req.getParameter("search");
 		String isSearch = "n";
 
-		System.out.println("search: " + search);
 
 		if( search != null && !search.equals("")) {
 			isSearch = "y";

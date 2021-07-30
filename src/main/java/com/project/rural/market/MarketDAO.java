@@ -25,7 +25,7 @@ public class MarketDAO {
 			conn = DBUtil.open();
 
 		} catch (Exception e) {
-			System.out.println("MarketDAO.MarketDAO();");
+			System.out.println("MarketDAO.MarketDAO()");
 			e.printStackTrace();
 		}
 	}
@@ -83,7 +83,6 @@ public class MarketDAO {
 			if(map.get("isSearch").equals("y")) {
 
 				//검색
-
 				where = String.format(" where brandName like '%%%s%%' ",map.get("search"));
 
 			}
@@ -167,7 +166,6 @@ public class MarketDAO {
 			}
 
 		} catch (Exception e) {
-			System.out.println("MarketDAO.get()");
 			e.printStackTrace();
 		}
 
@@ -236,14 +234,10 @@ public class MarketDAO {
 
 
 	//market > addlist서블릿
-
-
-
 	public ArrayList<MarketDTO> addlist(String id) {
 
 		try {
 
-			System.out.println("id: " + id);
 			String sql = String.format("select * from tblMarket where id='%s' order by seq desc", id);
 
 			pstat = conn.prepareStatement(sql);
@@ -275,7 +269,6 @@ public class MarketDAO {
 
 
 			}
-			System.out.println("addlist: " + addlist);
 			return addlist;
 
 
@@ -286,6 +279,113 @@ public class MarketDAO {
 
 		return null;
 	}
+
+
+	//Market > AddQna 서블릿
+	public int addQna(MarketQADTO dto) {
+
+		try {
+
+			String sql = "insert into tblMarketQA(seq, pseq, id, title, detailq, regdateq, detaila, regdatea, isa)"
+					+ "    values(seqMarketQA.nextVal, ?, ?, ?, ?, default, ?, default, default)";
+
+			pstat = conn.prepareStatement(sql);
+
+			//pstat.setString(1, dto.getSeq());
+			pstat.setString(1, dto.getPseq());
+			pstat.setString(2, dto.getId());
+			pstat.setString(3, dto.getTitle());
+			pstat.setString(4, dto.getDetailq());
+			pstat.setString(5, dto.getDetaila());
+
+			return pstat.executeUpdate();
+
+
+		} catch (Exception e) {
+			System.out.println("MarketDAO.addQna()");
+			e.printStackTrace();
+
+		}
+
+
+		return 0;
+
+	}
+
+
+
+	//market >view 서블릿
+	public ArrayList<MarketQADTO> listQna(String seq) {
+
+		try {
+
+
+			String sql = "select c.*, (select name from tblUser where id = c.id ) as name from tblMarketQA c where pseq = ? order by seq desc";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, seq);
+
+			rs = pstat.executeQuery();
+
+			ArrayList<MarketQADTO> qlist = new ArrayList<MarketQADTO>();
+
+			while(rs.next()) {
+				MarketQADTO dto = new MarketQADTO();
+				dto.setSeq(rs.getString("seq"));
+				dto.setId(rs.getString("id"));
+				dto.setTitle(rs.getString("title"));
+				dto.setDetailq(rs.getString("detailq"));
+				dto.setRegdateq(rs.getString("regdateq"));
+				dto.setDetaila(rs.getString("detaila"));
+				dto.setRegdatea(rs.getString("regdatea"));
+				dto.setIsa(rs.getString("isa"));
+				dto.setName(rs.getString("name"));
+
+				qlist.add(dto);
+
+			}
+			return qlist;
+
+
+		} catch (Exception e) {
+			System.out.println("MarketDAO.listQna()");
+			e.printStackTrace();
+
+
+		}
+		return null;
+	}
+
+
+	//market > addReqna서블릿
+	public int addReqna(MarketQADTO dto) {
+
+		try {
+
+			String sql = "update tblMarketQA set detaila = ?, regdatea = sysdate, isa ='y' where seq = ?";
+
+
+			pstat = conn.prepareStatement(sql);
+
+			pstat.setString(1, dto.getDetaila());
+			pstat.setString(2, dto.getSeq());
+
+			System.out.println(sql);
+			System.out.println(dto.getDetaila() + dto.getSeq());
+			return pstat.executeUpdate();
+
+
+		} catch (Exception e) {
+			System.out.println("MarketDAO.addReqna()");
+			e.printStackTrace();
+		}
+
+
+		return 0;
+	}
+
+
+
 
 
 
