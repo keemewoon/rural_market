@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+
 <!-- JS here -->
 
 <!-- All JS Custom Plugins Link Here here -->
 <%-- <%= request.getContextPath() %> --%>
-<script src="<%= request.getContextPath() %>/assets/js/vendor/modernizr-3.5.0.min.js"></script>
+<script src="<%= request.getContextPath() %>/assets/js/modernizr-3.5.0.min.js"></script>
 
 <!-- Jquery, Popper, Bootstrap -->
-<script src="<%= request.getContextPath() %>/assets/js/vendor/jquery-1.12.4.min.js"></script>
+<script src="<%= request.getContextPath() %>/assets/js/jquery-1.12.4.min.js"></script>
 <script src="<%= request.getContextPath() %>/assets/js/popper.min.js"></script>
 <script src="<%= request.getContextPath() %>/assets/js/bootstrap.min.js"></script>
 <!-- Jquery Mobile Menu -->
@@ -34,7 +34,6 @@
 <script src="<%= request.getContextPath() %>/assets/js/mail-script.js"></script>
 <script src="<%= request.getContextPath() %>/assets/js/jquery.ajaxchimp.min.js"></script>
 
-<!-- Jquery Plugins, main Jquery -->	
+<!-- Jquery Plugins, main Jquery -->
 <script src="<%= request.getContextPath() %>/assets/js/plugins.js"></script>
 <script src="<%= request.getContextPath() %>/assets/js/main_index.js"></script>
-        

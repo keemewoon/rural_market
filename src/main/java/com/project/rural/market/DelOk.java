@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 public class DelOk extends HttpServlet {
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		// 1. 데이터 가져오기(seq)
 		// 2. DB작업 > DAO 위임 > delete where seq
@@ -37,7 +37,7 @@ public class DelOk extends HttpServlet {
 		if(result == 1) {
 			 resp.sendRedirect("/rural/market/list.do");
 		}else {
-			 resp.sendRedirect("/rural/market/del.do?seq=" + seq);
+			 resp.sendRedirect("/rural/market/view.do?seq=" + seq);
 		}
 
 

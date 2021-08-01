@@ -95,8 +95,7 @@
 						<th>주소</th>
 						<td colspan="2"><input type="text" name="address"
 							id="address" class="form-control" required value="${dto.address}"></td>
-						<td><input type="button" value="주소찾기"
-							class="btn btn-secondary"></td>
+						<td><input class="btn btn-secondary" type="button" onClick="goPopup();" value="주소검색"></td>
 
 					</tr>
 					<tr>
@@ -139,6 +138,24 @@
 	<script>
 
 		$('#marketInfo').val("${dto.marketInfo}");
+
+
+		//주소 검색
+	      function goPopup(){
+	         // IE에서 opener관련 오류가 발생하는 경우, window에 이름을 명시해줍니다.
+	         window.name="jusoPopup";
+
+	         // 주소검색을 수행할 팝업 페이지를 호출합니다.
+	         // 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(http://www.juso.go.kr/addrlink/addrLinkUrl.do)를 호출하게 됩니다.
+	         var pop = window.open("<%= request.getContextPath() %>/inc/jusoPopup.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes");
+	      }
+
+
+	      function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn,detBdNmList,bdNm,bdKdcd,siNm,sggNm,emdNm,liNm,rn,udrtYn,buldMnnm,buldSlno,mtYn,lnbrMnnm,lnbrSlno,emdNo){
+	         // 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
+	         //$("#address").val(roadAddrPart1 + ", " + addrDetail);
+	         $("#address").val(roadFullAddr);
+	      }
 
 	</script>
 </body>

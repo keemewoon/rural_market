@@ -9,23 +9,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/market/del.do")
-public class Del extends HttpServlet {
+@WebServlet("/market/delqna.do")
+public class DelQna extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		// 할일(삭제하시겠습니까? 작업)
-		// 1. 데이터 가져오기 (seq)
-		// 2. jsp 호출하기 + 글 번호 전달하기
 
-		// 1.
-		String seq = req.getParameter("seq");
 
-		// 2.
-		req.setAttribute("seq", seq);
-
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/market/del.jsp");
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/market/delqna.jsp");
 		dispatcher.forward(req, resp);
 
 	}

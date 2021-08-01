@@ -21,8 +21,25 @@ h3 {
 	cursor: pointer;
 }
 
-.img {
-	cursor: pointer;
+.place-img {
+	width: 350px;
+	height: 418px;
+	overflow: hidden;
+	border: 1px solid #f0f1f2;
+	text-align: center;
+}
+
+.favourite-place .single-place .place-img img {
+	object-fit: cover;
+	width: auto;
+	height: 100%;
+	text-aling: center;
+	-webkit-transform: scale 1;
+	-moz-transform: scale 1;
+	-ms-transform: scale 1;
+	-o-transform: scale 1;
+	transform: scale 1;
+	transition: all 0.5s ease-out 0s;
 }
 
 .search {
@@ -58,6 +75,12 @@ table tr th {
 .nav-item {
 	cursor: pointer;
 }
+
+.like {
+	width: 48px;
+	height: 45px;
+}
+
 </style>
 </head>
 <body>
@@ -75,7 +98,7 @@ table tr th {
 					<div class="col-xl-12">
 						<div class="hero-cap">
 							<h2>농작물 직거래</h2>
-							<c:if test="${not empty id}">
+							<c:if test="${not empty id && id == 'farmer'}">
 								<button type="button" class="btn btn-dark" id="registList"
 									onclick="location.href='/rural/market/addlist.do?id=${dto.id}';">등록내역보기</button>
 							</c:if>
@@ -108,7 +131,7 @@ table tr th {
 				</div>
 			</form>
 
-			<c:if test="${map.isSearch == 'y'}">
+			<c:if test="${map.isSearch == 'y' && map.marketinfo == null}">
 				<div class="alert alert-secondary" style="padding: 30px;">'${map.search}'으로
 					검색한 결과 ${list.size()}개의 게시물이 있습니다.</div>
 			</c:if>
@@ -124,29 +147,50 @@ table tr th {
 						<div class="container">
 
 
-							<form name="navsearch" method="GET" action="/rural/market/list.do">
+							<form name="navsearch" method="GET"
+								action="/rural/market/list.do">
 
-								<input type="submit" name="marketInfo" id="marketInfo" value="쌀/잡곡">
-
-
-							<ul class="nav nav-tabs">
-								<li class="nav-item"><a id="nav1" name="nav1" type="submit" class="nav-link active">쌀/잡곡</a></li>
-								<li class="nav-item"><a id="nav2" name="nav2" type="submit" class="nav-link disabled">과일/견과</a></li>
-								<li class="nav-item"><a id="nav3" name="nav3" type="submit" class="nav-link disabled">채소/버섯</a></li>
-								<li class="nav-item"><a id="nav4" name="nav4" type="submit" class="nav-link disabled">정육/계란</a></li>
-								<li class="nav-item"><a id="nav5" name="nav5" type="submit" class="nav-link active">김치</a></li>
-								<li class="nav-item"><a id="nav6" name="nav6" type="submit" class="nav-link disabled">홍삼/건강식품</a></li>
-								<li class="nav-item"><a id="nav7" name="nav7" type="submit" class="nav-link disabled">전통주</a></li>
-							</ul>
+								<!-- MarketInfo 메뉴 -->
+								<form method="GET" action="/rural/market/list.do">
+								<div id="menubox">
+									<ul class="nav nav-tabs" id="navibar">
+										<li class="nav-item"><a class="nav-link active"
+											href="/rural/market/list.do">전체보기</a></li>
+										<li class="nav-item"><a class="nav-link active"
+											href="/rural/market/list.do?marketinfo=쌀/잡곡&search=${ search }">
+												쌀/잡곡</a></li>
+										<li class="nav-item"><a class="nav-link active"
+											href="/rural/market/list.do?marketinfo=과일/견과&search=${ search }">
+												과일/견과</a></li>
+										<li class="nav-item"><a class="nav-link active"
+											href="/rural/market/list.do?marketinfo=채소/버섯&search=${ search }">
+												채소/버섯</a></li>
+										<li class="nav-item"><a class="nav-link active"
+											href="/rural/market/list.do?marketinfo=정육/계란&search=${ search }">
+												정육/계란</a></li>
+										<li class="nav-item"><a class="nav-link active"
+											href="/rural/market/list.do?marketinfo=김치&search=${ search }">
+												김치</a></li>
+										<li class="nav-item"><a class="nav-link active"
+											href="/rural/market/list.do?marketinfo=홍삼/건강식품&search=${ search }">
+												홍삼/건강식품</a></li>
+										<li class="nav-item"><a class="nav-link active"
+											href="/rural/market/list.do?marketinfo=전통주&search=${ search }">
+												전통주</a></li>
+									</ul>
+								</div>
 							</form>
 
 
 							<div class="row justify-content-between"
 								style="padding: 15px; margin-top: 20px;">
+								<!-- 관심내역 라디오박스 -->
+								<form method="GET" action="/rural/market/likelist.do">
 								<div>
-									<input type="radio" id="applyList"><label
-										for="applyList" style="margin-left: 15px;">관심내역 보기 </label>
+									<input type="checkbox" id="applyList"><label for="applyList" style="margin-left: 15px;">관심내역 보기 </label>
 								</div>
+								</form>
+
 								<button type="button" class="btn btn-success"
 									onclick="location.href='/rural/market/add.do';">글쓰기</button>
 							</div>
@@ -168,45 +212,58 @@ table tr th {
 								</c:if>
 
 
-								<c:forEach items="${list}" var="dto">
-									<div class="col-xl-4 col-lg-4 col-md-6">
-										<div class="single-place mb-30">
-											<div class="place-img">
-												<img src="/rural/assets/img/market/${dto.image}"
-													alt="sumnailImage"
-													onclick="location.href='/rural/market/view.do?seq=${dto.seq}';"
-													class="img">
-											</div>
-											<div class="place-cap">
-												<div class="place-cap-top">
-													<h3>
-														<a href="/rural/market/view.do?seq=${dto.seq}">${dto.brandName}</a>
-													</h3>
-
-
-
+									<c:forEach items="${list}" var="dto">
+										<div class="col-xl-4 col-lg-4 col-md-6">
+											<div class="single-place mb-30">
+												<div class="place-img">
+													<img src="/rural/assets/img/market/${dto.image}"
+														alt="sumnailImage"
+														onclick="location.href='/rural/market/view.do?seq=${dto.seq}';"
+														class="img">
 												</div>
-												<div class="place-cap-bottom">
-													<ul>
-														<li>${dto.marketInfo}>${dto.name}</li>
-													</ul>
-													<ul>
-														<div class="detailopen">
-															<input type="button" class="btn btn-secondary"
-																value="상세보기"
-																onclick="location.href='/rural/market/view.do?seq=${dto.seq}';"></a>
-														</div>
-													</ul>
+												<div class="place-cap">
+													<div class="place-cap-top d-flex">
+														<h3>
+															<a href="/rural/market/view.do?seq=${dto.seq}">${dto.brandName}</a>
+														</h3>
+
+														<!-- 좋아요 기능 -->
+														<c:if test="${not empty dto.seq && dto.seq == dto.seq}">
+															<img src="/rural/assets/img/market/unlike.png"
+																id="unlike" name="unlike" class='ml-auto p-2 like'
+																onclick="location.href='/rural/market/likeok.do?seq=${dto.seq}';">
+														</c:if>
+														<c:if test="${empty dto.seq}">
+															<img src="/rural/assets/img/market/like.png" id="like"
+																name="like" class='ml-auto p-2 like'
+																onclick="location.href='/rural/market/likeok.do?seq=${dto.seq}';">
+														</c:if>
+														<input type="hidden" name="seq" value="${dto.seq}">
+
+													</div>
+													<div class="place-cap-bottom">
+														<ul>
+															<li>${dto.marketInfo}>${dto.name}</li>
+														</ul>
+														<ul>
+															<div class="detailopen">
+																<input type="button" class="btn btn-secondary"
+																	value="상세보기"
+																	onclick="location.href='/rural/market/view.do?seq=${dto.seq}';"></a>
+															</div>
+														</ul>
+													</div>
 												</div>
 											</div>
 										</div>
+									</c:forEach>
+
+									<div>
+										${page.bar}
 									</div>
-								</c:forEach>
 
 
-
-
-							</div>
+								</div>
 						</div>
 					</div>
 
@@ -225,6 +282,8 @@ table tr th {
 			//상태 복원
 			$('#search').val('${map.search}');
 		</c:if>
+
+
 
 	</script>
 </body>

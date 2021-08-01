@@ -1,6 +1,5 @@
 package com.project.rural.market;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,12 +11,10 @@ import com.project.rural.DBUtil;
 
 public class MarketDAO {
 
-
 	private Connection conn;
 	private Statement stat;
 	private PreparedStatement pstat;
 	private ResultSet rs;
-
 
 	public MarketDAO() {
 		try {
@@ -30,9 +27,7 @@ public class MarketDAO {
 		}
 	}
 
-
-
-	//Market > add 서블릿
+	// Market > add 서블릿
 	public int add(MarketDTO dto) {
 
 		try {
@@ -42,7 +37,7 @@ public class MarketDAO {
 
 			pstat = conn.prepareStatement(sql);
 
-			//pstat.setString(1, dto.getSeq());
+			// pstat.setString(1, dto.getSeq());
 			pstat.setString(1, dto.getId());
 			pstat.setString(2, dto.getMarketInfo());
 			pstat.setString(3, dto.getName());
@@ -53,37 +48,33 @@ public class MarketDAO {
 			pstat.setString(8, dto.getDetail());
 			pstat.setString(9, dto.getImage());
 
-
 			return pstat.executeUpdate();
-
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-
 		return 0;
 	}
 
-
-
-
-
-	//Market > list서블릿
+	// Market > list서블릿
 	public ArrayList<MarketDTO> list(HashMap<String, String> map) {
 
 		try {
 
-			//메소드에서 하는 일
-			//1. 목록보기
-			//2. 검색하기
+			// 메소드에서 하는 일
+			// 1. 목록보기
+			// 2. 검색하기
 
 			String where = "";
 
-			if(map.get("isSearch").equals("y")) {
+			if (map.get("isSearch").equals("y")) {
+				// 검색
+				where = String.format(" where brandName like '%%%s%%' ", map.get("search"));
 
-				//검색
-				where = String.format(" where brandName like '%%%s%%' ",map.get("search"));
+			}
+			if (map.get("marketinfo") != null && !map.get("marketinfo").equals("")) {
+				where = String.format(" where marketinfo like '%%%s%%' ", map.get("marketinfo"));
 
 			}
 
@@ -93,11 +84,11 @@ public class MarketDAO {
 
 			rs = pstat.executeQuery();
 
-			ArrayList<MarketDTO> list = new ArrayList<MarketDTO>(); //옮겨 담을 큰 상자
+			ArrayList<MarketDTO> list = new ArrayList<MarketDTO>(); // 옮겨 담을 큰 상자
 
 			while (rs.next()) {
 
-				//레코드 1줄 -> BoardDTO 한개
+				// 레코드 1줄 -> BoardDTO 한개
 
 				MarketDTO dto = new MarketDTO();
 
@@ -112,13 +103,12 @@ public class MarketDAO {
 				dto.setDetail(rs.getString("detail"));
 				dto.setRegDate(rs.getString("regDate"));
 				dto.setImage(rs.getString("image"));
-				//dto.setIsnew(rs.getString("isnew"));
-
+				// dto.setIsnew(rs.getString("isnew"));
 
 				list.add(dto);
 
 			}
-			//System.out.println("list: " + list);
+			// System.out.println("list: " + list);
 			return list;
 
 		} catch (Exception e) {
@@ -126,13 +116,10 @@ public class MarketDAO {
 			e.printStackTrace();
 		}
 
-
 		return null;
 	}
 
-
-
-	//Market > view 서블릿
+	// Market > view 서블릿
 	public MarketDTO get(String seq) {
 
 		try {
@@ -169,16 +156,11 @@ public class MarketDAO {
 			e.printStackTrace();
 		}
 
-
-
 		return null;
 	}
 
-
-
-	//Market > delOk 서블릿
+	// Market > delOk 서블릿
 	public int del(String seq) {
-
 
 		try {
 
@@ -198,15 +180,12 @@ public class MarketDAO {
 		return 0;
 	}
 
-
-
-	//market > EditOk서블릿
+	// market > EditOk서블릿
 	public int edit(MarketDTO dto) {
 
 		try {
 
 			String sql = "update tblMarket set marketinfo = ?, name = ?, brandname = ? , tel = ?, address = ? , site = ?, detail = ? , image  =? where seq = ?";
-
 
 			pstat = conn.prepareStatement(sql);
 
@@ -222,18 +201,15 @@ public class MarketDAO {
 
 			return pstat.executeUpdate();
 
-
 		} catch (Exception e) {
 			System.out.println("MarketDAO.edit()");
 			e.printStackTrace();
 		}
 
-
 		return 0;
 	}
 
-
-	//market > addlist서블릿
+	// market > addlist서블릿
 	public ArrayList<MarketDTO> addlist(String id) {
 
 		try {
@@ -244,11 +220,11 @@ public class MarketDAO {
 
 			rs = pstat.executeQuery();
 
-			ArrayList<MarketDTO> addlist = new ArrayList<MarketDTO>(); //옮겨 담을 큰 상자
+			ArrayList<MarketDTO> addlist = new ArrayList<MarketDTO>(); // 옮겨 담을 큰 상자
 
 			while (rs.next()) {
 
-				//레코드 1줄 -> BoardDTO 한개
+				// 레코드 1줄 -> BoardDTO 한개
 
 				MarketDTO dto = new MarketDTO();
 
@@ -264,24 +240,21 @@ public class MarketDAO {
 				dto.setRegDate(rs.getString("regDate"));
 				dto.setImage(rs.getString("image"));
 
-				//리스트에 옮겨담기
+				// 리스트에 옮겨담기
 				addlist.add(dto);
-
 
 			}
 			return addlist;
 
-
 		} catch (Exception e) {
-			System.out.println("BoardDAO.addlist()");
+			System.out.println("MarketDAO.addlist()");
 			e.printStackTrace();
 		}
 
 		return null;
 	}
 
-
-	//Market > AddQna 서블릿
+	// Market > AddQna 서블릿,
 	public int addQna(MarketQADTO dto) {
 
 		try {
@@ -291,7 +264,7 @@ public class MarketDAO {
 
 			pstat = conn.prepareStatement(sql);
 
-			//pstat.setString(1, dto.getSeq());
+			// pstat.setString(1, dto.getSeq());
 			pstat.setString(1, dto.getPseq());
 			pstat.setString(2, dto.getId());
 			pstat.setString(3, dto.getTitle());
@@ -300,25 +273,20 @@ public class MarketDAO {
 
 			return pstat.executeUpdate();
 
-
 		} catch (Exception e) {
 			System.out.println("MarketDAO.addQna()");
 			e.printStackTrace();
 
 		}
 
-
 		return 0;
 
 	}
 
-
-
-	//market >view 서블릿
+	// market >view 서블릿
 	public ArrayList<MarketQADTO> listQna(String seq) {
 
 		try {
-
 
 			String sql = "select c.*, (select name from tblUser where id = c.id ) as name from tblMarketQA c where pseq = ? order by seq desc";
 
@@ -329,7 +297,7 @@ public class MarketDAO {
 
 			ArrayList<MarketQADTO> qlist = new ArrayList<MarketQADTO>();
 
-			while(rs.next()) {
+			while (rs.next()) {
 				MarketQADTO dto = new MarketQADTO();
 				dto.setSeq(rs.getString("seq"));
 				dto.setId(rs.getString("id"));
@@ -346,48 +314,112 @@ public class MarketDAO {
 			}
 			return qlist;
 
-
 		} catch (Exception e) {
 			System.out.println("MarketDAO.listQna()");
 			e.printStackTrace();
-
 
 		}
 		return null;
 	}
 
-
-	//market > addReqna서블릿
+	// market > addReqna서블릿
 	public int addReqna(MarketQADTO dto) {
 
 		try {
 
 			String sql = "update tblMarketQA set detaila = ?, regdatea = sysdate, isa ='y' where seq = ?";
 
-
 			pstat = conn.prepareStatement(sql);
 
 			pstat.setString(1, dto.getDetaila());
 			pstat.setString(2, dto.getSeq());
 
-			System.out.println(sql);
-			System.out.println(dto.getDetaila() + dto.getSeq());
 			return pstat.executeUpdate();
-
 
 		} catch (Exception e) {
 			System.out.println("MarketDAO.addReqna()");
 			e.printStackTrace();
 		}
 
+		return 0;
+	}
+
+	// market > delReqna서블릿
+	public int delReqna(MarketQADTO dto) {
+		try {
+
+			String sql = "update tblMarketQA set detaila = null, regdatea = sysdate, isa ='n' where seq = ?";
+
+			pstat = conn.prepareStatement(sql);
+
+			pstat.setString(1, dto.getSeq());
+
+			return pstat.executeUpdate();
+
+		} catch (Exception e) {
+			System.out.println("MarketDAO.delReqna()");
+			e.printStackTrace();
+		}
 
 		return 0;
 	}
 
+	// market > likeok 서블릿
+	public int addlike(LikeDTO dto) {
+		try {
 
+			String sql = "insert into tblMarketlike(id, seq) values(?, ?)";
 
+			pstat = conn.prepareStatement(sql);
 
+			pstat.setString(1, dto.getId());
+			pstat.setString(2, dto.getSeq());
 
+			System.out.println("MarketDAO:" + dto.getSeq());
 
+			return pstat.executeUpdate();
 
+		} catch (Exception e) {
+			System.out.println("MarketDAO.addlike()");
+			e.printStackTrace();
+		}
+
+		return 0;
+	}
+
+	ArrayList<LikeDTO> likelist(String id) {
+
+		try {
+
+			String sql = String.format("select * from tblMarket m inner join tblMarketlike l on m.seq = l.seq where m.id = '%s' ", id);
+
+			pstat = conn.prepareStatement(sql);
+
+			rs = pstat.executeQuery();
+
+			ArrayList<LikeDTO> likelist = new ArrayList<LikeDTO>(); // 옮겨 담을 큰 상자
+
+			while (rs.next()) {
+
+				// 레코드 1줄 -> BoardDTO 한개
+
+				LikeDTO dto = new LikeDTO();
+
+				dto.setId(rs.getString("id"));
+				dto.setSeq(rs.getString("seq"));
+
+				// 리스트에 옮겨담기
+				likelist.add(dto);
+
+			}
+			return likelist;
+
+		} catch (Exception e) {
+			System.out.println("MarketDAO.likelist()");
+			e.printStackTrace();
+		}
+
+		return null;
+
+	}
 }

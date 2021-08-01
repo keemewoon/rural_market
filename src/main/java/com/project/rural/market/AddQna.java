@@ -16,7 +16,7 @@ public class AddQna extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-
+		//User가 문의사항을 남기는 기능을 하는 서블릿
 
 		//할일
 		//1. 데이터 가져오기(detailq, pseq, title)
