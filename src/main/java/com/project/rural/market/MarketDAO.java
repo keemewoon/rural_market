@@ -48,7 +48,6 @@ public class MarketDAO {
 			pstat.setString(8, dto.getDetail());
 			pstat.setString(9, dto.getImage());
 
-			System.out.println(sql);
 			return pstat.executeUpdate();
 
 		} catch (Exception e) {
@@ -79,7 +78,15 @@ public class MarketDAO {
 
 			}
 
-			String sql = String.format("select * from tblMarket %s order by seq desc", where);
+			String sql = String.format("select * from (select b.*, rownum as rnum from tblMarket b %s) where rnum between %s and %s"
+		               , where
+		               , map.get("begin")
+		               , map.get("end"));
+
+			/*
+			 * String sql = String.format("select * from tblMarket %s order by seq desc",
+			 * where);
+			 */
 
 			pstat = conn.prepareStatement(sql);
 
@@ -349,7 +356,7 @@ public class MarketDAO {
 	public int delReqna(MarketQADTO dto) {
 		try {
 
-			String sql = "update tblMarketQA set detaila = null, regdatea = sysdate, isa ='n' where seq = ?";
+			String sql = "update tblMarketQA set detaila = null, regdatea = null, isa ='n' where seq = ?";
 
 			pstat = conn.prepareStatement(sql);
 
@@ -435,15 +442,18 @@ public class MarketDAO {
 
 			if(rs.next()) {
 				seq = rs.getString("seq");
-			}
-			String sql = "insert into tblMarketImg (seq, image, pseq) values (seqMarketImg.nextVal, ?,?)";
 
-			for(String image : images) {
+				String sql = "insert into tblMarketImg (seq, image, pseq) values (seqMarketImg.nextVal, ?,?)";
+
 				pstat = conn.prepareStatement(sql);
-				pstat.setString(1, image);
-				pstat.setString(2, seq);
 
-				pstat.executeUpdate();
+				for(String image : images) {
+					pstat.setString(1, image);
+					pstat.setString(2, seq);
+
+					pstat.executeUpdate();
+					System.out.println(sql + "," + image + "," + seq);
+				}
 			}
 
 		} catch (Exception e) {
@@ -481,4 +491,150 @@ public class MarketDAO {
 		   }
 
 
+
+
+	public int delAllImg(String seq) {
+
+		try {
+
+			// 게시글에 속한 이미지 삭제
+			String sql = "delete from tblMarketImg where pseq=?";
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, seq);
+
+			return pstat.executeUpdate();
+
+			} catch (Exception e) {
+			e.printStackTrace();
+			}
+
+			return 0;
+	}
+
+	public int editImg(ArrayList<String> images, String seq) {
+
+		try {
+
+			String sql = "insert into tblMarketImg (seq, image, pseq) " + "values (seqMarketImg.NextVal, ?, ?)";
+
+			for (String image : images) {
+
+				pstat = conn.prepareStatement(sql);
+				pstat.setString(1, image);
+				pstat.setString(2, seq);
+
+				pstat.executeUpdate();
+			}
+
+			return pstat.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	//market> delok서블릿 Qna모두 삭제
+	public int delAllQna(String seq) {
+		try {
+
+			String sql = "delete from tblMarketQA where pseq = ?";
+
+			pstat = conn.prepareStatement(sql);
+
+			pstat.setString(1,  seq);
+
+			return pstat.executeUpdate();
+
+
+		} catch (Exception e) {
+			System.out.println("MarketDAO.delAllQna()");
+			e.printStackTrace();
+		}
+
+
+		return 0;
+
+	}
+
+
+	public int delQna(String seq) {
+		try {
+
+			String sql = "delete from tblMarketQA where seq = ?";
+
+			pstat = conn.prepareStatement(sql);
+
+			pstat.setString(1,  seq);
+
+			return pstat.executeUpdate();
+
+
+		} catch (Exception e) {
+			System.out.println("MarketDAO.delQna()");
+			e.printStackTrace();
+		}
+		return 0;
+
+
+	}
+
+	public int delAlllike(String seq) {
+
+		try {
+
+			String sql = "delete from tblMarketLike where seq = ?";
+
+			pstat = conn.prepareStatement(sql);
+
+			pstat.setString(1,  seq);
+
+			return pstat.executeUpdate();
+
+
+		} catch (Exception e) {
+			System.out.println("MarketDAO.delAlllike()");
+			e.printStackTrace();
+		}
+
+
+		return 0;
+
+	}
+
+
+	//market > List 서블릿이 총 게시물수 알려달라고 요청
+	public int getTotalCount(HashMap<String, String> map) {
+
+		try {
+
+			String where = "";
+
+			if (map.get("isSearch").equals("y")) {
+				// 검색
+				where = String.format(" where brandName like '%%%s%%' ", map.get("search"));
+
+			}
+			if (map.get("marketinfo") != null && !map.get("marketinfo").equals("")) {
+				where = String.format(" where marketinfo like '%%%s%%' ", map.get("marketinfo"));
+
+			}
+
+			String sql = String.format("select count(*) as cnt from tblMarket %s", where);
+
+			pstat = conn.prepareStatement(sql);
+
+			rs = pstat.executeQuery();
+
+			if(rs.next()) {
+				return rs.getInt("cnt");
+			}
+
+		} catch (Exception e) {
+			System.out.println("BoardDAO.getTotalCount()");
+			e.printStackTrace();
+		}
+
+		return 0;
+	}
 }

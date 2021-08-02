@@ -10,8 +10,6 @@
 <%@ include file="/inc/asset.jsp"%>
 
 <style>
-
-
 </style>
 </head>
 <body>
@@ -60,16 +58,23 @@
 							<td name="startDate endDate">${dto.name}</td>
 							<td name="name">${dto.brandName}</td>
 							<td>
-								<button type="button" class="btn btn-secondary btn-sm" onclick="location.href='/rural/market/edit.do?seq=${dto.seq}';">수정하기</button>
-								<button type="button" class="btn btn-danger btn-sm" onclick="location.href='/rural/market/del.do?seq=${dto.seq}';">삭제하기</button>
+								<button type="button" class="btn btn-secondary btn-sm"
+									onclick="location.href='/rural/market/edit.do?seq=${dto.seq}';">수정하기</button>
+								<button type="button" class="btn btn-danger btn-sm"
+									onclick="location.href='/rural/market/del.do?seq=${dto.seq}';">삭제하기</button>
 							</td>
-							<td><button type="button" class="btn btn-primary btn-lg" onclick="location.href='/rural/market/view.do?seq=${dto.seq}#qna';">문의내역</button></td>
+							<td><button type="button" class="btn btn-primary btn-lg"
+									onclick="location.href='/rural/market/view.do?seq=${dto.seq}#qna';">문의내역</button></td>
 						</tr>
 					</c:forEach>
 
 
 				</tbody>
 			</table>
+
+			<!-- 페이징바 -->
+			<div class="row justify-content-md-center" style="width: 100%">${pagebar}</div>
+
 
 		</div>
 
@@ -86,13 +91,14 @@
 	<div id="fb-root"></div>
 	<script>
 		(function(d, s, id) {
-		var js, fjs = d.getElementsByTagName(s)[0];
-		if (d.getElementById(id)) return;
-		js = d.createElement(s); js.id = id;
-		js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
-		fjs.parentNode.insertBefore(js, fjs);
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id))
+				return;
+			js = d.createElement(s);
+			js.id = id;
+			js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+			fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
-
 	</script>
 </body>
 </html>

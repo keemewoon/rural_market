@@ -22,6 +22,7 @@ h3 {
 }
 
 .place-img {
+    object-fit: cover;
 	width: 350px;
 	height: 418px;
 	overflow: hidden;
@@ -82,6 +83,11 @@ table tr th {
 	height: 45px;
 }
 
+.pagebar {
+	text-align: center;
+	display: block;
+	border: 1px solid red;
+}
 
 
 </style>
@@ -101,7 +107,8 @@ table tr th {
 					<div class="col-xl-12">
 						<div class="hero-cap">
 							<h2>농작물 직거래</h2>
-							<c:if test="${not empty id && id == 'farmer'}">
+
+							<c:if test="${not empty id &&  lv == 2}">
 								<button type="button" class="btn btn-dark" id="registList"
 									onclick="location.href='/rural/market/addlist.do?id=${dto.id}';">등록내역보기</button>
 							</c:if>
@@ -194,8 +201,10 @@ table tr th {
 								</div>
 								</form>
 
+								<c:if test="${not empty id &&  lv == 2}">
 								<button type="button" class="btn btn-success"
 									onclick="location.href='/rural/market/add.do';">글쓰기</button>
+								</c:if>
 							</div>
 
 
@@ -216,7 +225,7 @@ table tr th {
 
 
 									<c:forEach items="${list}" var="dto">
-										<div class="col-xl-4 col-lg-4 col-md-6">
+										<div class="col-xl-4 col-lg-4 col-md-6" style=" display: block;">
 											<div class="single-place mb-30">
 												<div class="place-img">
 													<img src="/rural/assets/img/market/${dto.image}" alt="image"
@@ -260,10 +269,8 @@ table tr th {
 										</div>
 									</c:forEach>
 
-									<div>
-										${page.bar}
-									</div>
-
+									<!-- 페이징바 -->
+									<div class="row justify-content-md-center" style="width: 100%">${pagebar}</div>
 
 								</div>
 						</div>

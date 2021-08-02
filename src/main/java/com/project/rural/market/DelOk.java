@@ -27,12 +27,14 @@ public class DelOk extends HttpServlet {
 
 		HttpSession session = req.getSession();
 
+
+
+		//2.5 현재 글에 있는 Qna삭제, 이미지삭제
+		dao.delAllQna(seq);
+		dao.delAllImg(seq);
+		dao.delAlllike(seq);
+
 		int result = dao.del(seq);
-
-		System.out.println("값:" + result);
-
-
-
 
 		if(result == 1) {
 			 resp.sendRedirect("/rural/market/list.do");

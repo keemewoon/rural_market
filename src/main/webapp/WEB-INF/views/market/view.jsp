@@ -10,8 +10,14 @@
 <%@ include file="/inc/asset.jsp"%>
 
 <style>
-.img {
-	/* border: 1px solid black; */
+
+.listimg {
+	object-fit: cover;
+	width: 263px;
+	height: 263px;
+	overflow: hidden;
+	border: 1px solid #f0f1f2;
+	text-align: center;
 
 }
 
@@ -30,7 +36,6 @@ table>tbody>tr:nth-child(2)>th {
 }
 
 .detail {
-	height: 525px;
 	width: 1150px;
 	border: 1px solid #DEE2E6;
 	padding: 40px;
@@ -51,10 +56,6 @@ table>tbody>tr:nth-child(2)>th {
 .date {
 	color: #b0b0b0;
 	text-align: right;
-}
-
-.btns {
-	margin: 30px;
 }
 
 .qna {
@@ -86,6 +87,12 @@ table>tbody>tr:nth-child(2)>th {
 	text-align: center;
 }
 
+.list {
+	margin: 20px;
+	display: flex;
+	flex-wrap: wrap;
+}
+
 .favourite-place .single-place .place-img img {
 	object-fit: cover;
 	width: auto;
@@ -97,6 +104,11 @@ table>tbody>tr:nth-child(2)>th {
 	-o-transform: scale 1;
 	transform: scale 1;
 	transition: all 0.5s ease-out 0s;
+}
+
+.qbody .qnaatag {
+	font-weight: bold;
+	font-size: 30px;
 }
 </style>
 </head>
@@ -167,8 +179,11 @@ table>tbody>tr:nth-child(2)>th {
 						</tr>
 						<tr>
 							<th>공유</th>
-							<td>
-								<iframe src="https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2Flocalhost%3A8090%2Frural%2Fmarket%2Fview.do&layout=button&size=large&width=92&height=28&appId" width="92" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+							<td><iframe
+									src="https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2Flocalhost%3A8090%2Frural%2Fmarket%2Fview.do&layout=button&size=large&width=92&height=28&appId"
+									width="92" height="28" style="border: none; overflow: hidden"
+									scrolling="no" frameborder="0" allowfullscreen="true"
+									allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
 							</td>
 							<td></td>
 						</tr>
@@ -186,28 +201,29 @@ table>tbody>tr:nth-child(2)>th {
 				</table>
 				<div class="row justify-content-md-center place-padding2">
 
-					<div class="detail">${dto.detail}
+					<div class="detail">
+						<div>${dto.detail}</div>
 
-					<div class="list">
-							<c:forEach items="${ ilist }" var="image" begin="0" end="3">
-								<img class="img" src="/rural/assets/img/market/${ image }">
-							</c:forEach>
-					</div>
+						<c:forEach items="${ ilist }" var="image" begin="0" end="3">
+							<img class="listimg" style="margin-top: 30px;" src="/rural/assets/img/market/${ image }">
+						</c:forEach>
 
 					</div>
 
 				</div>
-
-				<c:if test="${not empty id}">
-					<c:if test="${dto.id == id}">
-						<div class="row justify-content-md-center" style="padding: 30px;">
-							<button type="button" class="btn btn-success btns"
-								onclick="location.href='/rural/market/edit.do?seq=${dto.seq}';">수정하기</button>
-							<button type="submit" id="del" class="btn btn-secondary btns"
-								onclick=del(${dto.seq})>삭제하기</button>
-						</div>
+				<div>
+					<c:if test="${not empty id}">
+						<c:if test="${dto.id == id || lv == 3}">
+							<div class="row justify-content-md-center" style="padding: 30px;">
+								<button type="button" class="btn btn-success btns"
+									style="margin-right: 20px;"
+									onclick="location.href='/rural/market/edit.do?seq=${dto.seq}';">수정하기</button>
+								<button type="submit" id="del" class="btn btn-secondary btns"
+									onclick=del(${dto.seq})>삭제하기</button>
+							</div>
+						</c:if>
 					</c:if>
-				</c:if>
+				</div>
 
 
 				<div class="row justify-content-between"
@@ -222,15 +238,17 @@ table>tbody>tr:nth-child(2)>th {
 
 					<!-- 사용자: QnA쓰기 form -->
 					<form method="POST" action="/rural/market/addqna.do">
-						<c:if test="${not empty id && id == 'user' }">
+						<c:if test="${not empty id && id == 'user'}">
 							<table id="addQna" class="qna">
 								<tr>
 									<td><input type="text" name="title" id="title"
-										class="form-control" required placeholder="문의사항 제목을 입력해주세요."></td>
+										class="form-control" style="margin-bottom: 10px;" required
+										placeholder="문의사항 제목을 입력해주세요."></td>
 								</tr>
 								<tr>
 									<td><textarea name="detailq" id="detailq"
-											class="form-control" required placeholder="문의사항 내용을 입력해주세요."></textarea></td>
+											class="form-control" style="height: 100px; resize: none;"
+											required placeholder="문의사항 내용을 입력해주세요."></textarea></td>
 								</tr>
 							</table>
 							<div class="row justify-content-md-center"
@@ -264,14 +282,19 @@ table>tbody>tr:nth-child(2)>th {
 									<td name="detailq">${qdto.regdateq}</td>
 									<td name="detailq">${qdto.name}</td>
 
-									<td><c:if test="${qdto.isa == 'n'}">
+									<td><c:if test="${qdto.isa == 'n' && lv == 2}">
 											<button class="btn btn-success btn-lg" type="button"
 												data-toggle="collapse" data-target="#${qdto.seq}"
 												aria-expanded="false" aria-controls="${qdto.seq}">
 												답변하기</button>
+										</c:if> <c:if test="${qdto.isa == 'n'}">
+											<button class="btn btn-secondary btn-lg" type="button"
+												data-toggle="collapse" data-target="#${qdto.seq}"
+												aria-expanded="false" aria-controls="${qdto.seq}">
+												미답변</button>
 										</c:if> <c:if test="${qdto.isa == 'y'}">
 											<div>
-												<button class="btn btn-secondary btn-lg" type="button"
+												<button class="btn btn-success btn-lg" type="button"
 													data-toggle="collapse" data-target="#${qdto.seq}"
 													aria-expanded="false" aria-controls="${qdto.seq}">
 													답변완료</button>
@@ -281,29 +304,53 @@ table>tbody>tr:nth-child(2)>th {
 									<tr>
 										<td colspan="4">
 											<div class="collapse" id="${qdto.seq}">
-												<div class="qbody">Q. ${qdto.detailq}</div>
+												<div class="qbody">
+													<a class="qnaatag" style="color: #939393;">Q.</a><br>
+													${qdto.detailq}
+												</div>
+
 
 												<button type="submit" id="del"
-													class="btn btn-secondary btns"
-													onclick="location.href='/rural/market/del.do';">삭제하기</button>
+													class="btn btn-secondary btns" style="margin-bottom: 20px;"
+													onclick=delqna(${qdto.seq},${dto.seq})>문의삭제하기</button>
 
-												<div class="qbody">A. ${qdto.detaila}</div>
-												<form method="POST" action="/rural/market/delreqna.do">
-													<button type="submit" id="del"
-														class="btn btn-secondary btns" onclick=""
-														location.href='/rural/market/list.do'';">삭제하기</button>
-												</form>
-												<!-- 답변달기 입력 폼 -->
-												<c:if test="${qdto.isa == 'n' && id =='Famer'}">
+
+
+												<c:if test="${ not empty qdto.detaila}">
+
+													<div class="qbody">
+														<a class="qnaatag" style="color: #939393;">A.</a><br>${qdto.detaila}</div>
+													<c:if test="${dto.id == id }">
+														<button type="submit" id="del"
+															class="btn btn-secondary btns"
+															style="margin-bottom: 20px;"
+															onclick=delreqna(${qdto.seq},${dto.seq})>답변삭제하기</button>
+													</c:if>
+												</c:if>
+
+												<c:if test="${dto.id == id }">
+													<!-- 답변달기 입력 폼 -->
 													<textarea name="detaila" id="detaila" class="form-control"
-														required placeholder="문의사항 답변을 입력해주세요."></textarea>
+														style="height: 100px; resize: none;" required
+														placeholder="문의사항 답변을 입력해주세요."></textarea>
+												</c:if>
+
+												<c:if test="${ not empty qdto.detaila }">
+													<input class="btn btn-secondary" style="margin: 30px;"
+														type="submit" value="답변수정"
+														onclick="location.href='/rural/market/list.do';">
+												</c:if>
+
+												<c:if test="${ empty qdto.detaila && dto.id == id }">
 													<input class="btn btn-secondary" style="margin: 30px;"
 														type="submit" value="답변달기"
 														onclick="location.href='/rural/market/list.do';">
 												</c:if>
 
 
-												<!-- 현재 보고있는 글의 번호 -->
+
+
+											<!-- 현재 보고있는 글의 번호 -->
 											</div>
 											</div> <input type="hidden" name="seq" value="${qdto.seq}">
 											<input type="hidden" name="pseq" value="${dto.seq}">
@@ -340,7 +387,7 @@ table>tbody>tr:nth-child(2)>th {
 
 	<script>
 
-    // 게시글 삭제
+    // 게시글 삭제(farmer)
     function del(seq) {
          let result = confirm("정말 삭제하시겠습니까?");
          if (result) {
@@ -349,6 +396,26 @@ table>tbody>tr:nth-child(2)>th {
 
         }
      }
+
+	//문의사항 삭제(User)
+    function delqna(seq,pseq) {
+        let result = confirm("문의사항을 삭제하시겠습니까?");
+        if (result) {
+           location.href = "/rural/market/delqna.do?seq="+ seq + "&pseq="+pseq;
+        } else {
+
+       }
+    }
+
+	//농업인 답변삭제(farmer)
+    function delreqna(seq,pseq) {
+        let result = confirm("답변을 삭제하시겠습니까?");
+        if (result) {
+           location.href = "/rural/market/delreqna.do?seq="+ seq + "&pseq="+pseq;
+        } else {
+
+       }
+    }
 
 	</script>
 </body>

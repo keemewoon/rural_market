@@ -32,9 +32,12 @@ public class AddOk extends HttpServlet {
 
 		ArrayList<String> images = new ArrayList<String>();
 
+
 		MultipartRequest multi = new MultipartRequest(req, realFolder, maxSize, encType, new DefaultFileRenamePolicy());
 
-		Enumeration e = multi.getFileNames();
+		//String image = multi.getParameter("image");
+		String image = multi.getFilesystemName("image");
+		Enumeration e = multi.getFileNames(); //***
 
 		while (e.hasMoreElements()) {
 			images.add(multi.getFilesystemName(e.nextElement().toString()));
@@ -52,7 +55,6 @@ public class AddOk extends HttpServlet {
 		String tel = multi.getParameter("tel");
 		String address = multi.getParameter("address");
 		String detail = multi.getParameter("detail");
-		String image = multi.getParameter("image");
 		String site = multi.getParameter("site");
 
 		// 3.

@@ -24,6 +24,17 @@
 		margin: 30px;
 	}
 
+	.list .img {
+		max-width:200px;
+		max-height:200px;
+		width: auto;
+		height: auto;
+     	margin: 50px;
+     	background-repeat: no-repeat;
+     	background-position: center center;
+     	background-size: contain;
+	}
+
 
 
 </style>
@@ -53,7 +64,7 @@
 		<div class="container">
 
 
-			<form method="POST" action="/rural/market/editok.do">
+			<form method="POST" action="/rural/market/editok.do" enctype="multipart/form-data">
 				<h3>수정 하기</h3>
 				<table class="table">
 					<tr>
@@ -110,15 +121,24 @@
 							value="${dto.image}"></td>
 					</tr>
 					<tr>
-						<th>세부 이미지 첨부</th>
-						<td colspan="3"><input type="file" name="image" id="image"
-							class="form-control" required accept=".gif, .jpg, .png"></td>
+					<th>첨부 이미지</th>
+					<td>
+						<div class="list">
+							<c:forEach items="${ ilist }" var="image" begin="0" end="3">
+								<img class="img" src="/rural/assets/img/market/${ image }">
+							</c:forEach>
+						</div>
+					</td>
 					</tr>
-
+					<tr>
+						<th>이미지 첨부하기<br>(최대 3개)</th>
+						<td><input type="file" name="image1" accept=".gif, .jpg, .png"/></td>
+					</tr>
 
 				</table>
 
 				<div class="row justify-content-md-center" style="padding: 30px;">
+					<input type="button" value="이미지 추가하기" class="btn btn-success btns" id="btnAdd" />
 					<button type="submit" class="btn btn-success btns">수정완료</button>
 					<button type="button" class="btn btn-secondary btns" onclick='history.back()';">뒤로가기</button>
 				</div>
@@ -136,6 +156,30 @@
 	<%@ include file="/inc/init.jsp"%>
 
 	<script>
+
+
+		let index = 1;
+
+		$('#btnAdd').click(function() {
+
+			index++;
+
+			$("table tbody").append("<tr><th></th><td><input type='file' name='image" + index + "\" class='form-control' /><input type='button' value='delete' class='btn btn-secondary btns' onclick='delBtn();'  accept='.gif, .jpg, .png' /></td></tr>")
+
+			if ( index > 2 ) {
+				btnDisabled()
+			}
+		});
+
+		function delBtn() {
+			$(event.srcElement).parent().parent().remove();
+		}
+
+		function btnDisabled()  {
+			  const target = document.getElementById('btnAdd');
+			  target.disabled = true;
+		}
+
 
 		$('#marketInfo').val("${dto.marketInfo}");
 

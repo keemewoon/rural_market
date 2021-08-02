@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 public class DelReqna extends HttpServlet {
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		// User의 문의사항에 Farmer가 단 답변을 삭제하는 서블릿
 
