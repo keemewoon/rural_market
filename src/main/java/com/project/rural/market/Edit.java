@@ -1,6 +1,7 @@
 package com.project.rural.market;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -28,8 +29,13 @@ public class Edit extends HttpServlet {
 		MarketDAO dao = new MarketDAO();
 		MarketDTO dto = dao.get(seq);
 
+		//이미지 불러오기
+		ArrayList<String> ilist = dao.listImg(seq);
+
 		//3.
 		req.setAttribute("dto", dto);
+		req.setAttribute("ilist", ilist);
+
 
 
 

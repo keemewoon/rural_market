@@ -27,6 +27,7 @@ h3 {
 	overflow: hidden;
 	border: 1px solid #f0f1f2;
 	text-align: center;
+	cursor:pointer;
 }
 
 .favourite-place .single-place .place-img img {
@@ -80,6 +81,8 @@ table tr th {
 	width: 48px;
 	height: 45px;
 }
+
+
 
 </style>
 </head>
@@ -216,8 +219,7 @@ table tr th {
 										<div class="col-xl-4 col-lg-4 col-md-6">
 											<div class="single-place mb-30">
 												<div class="place-img">
-													<img src="/rural/assets/img/market/${dto.image}"
-														alt="sumnailImage"
+													<img src="/rural/assets/img/market/${dto.image}" alt="image"
 														onclick="location.href='/rural/market/view.do?seq=${dto.seq}';"
 														class="img">
 												</div>

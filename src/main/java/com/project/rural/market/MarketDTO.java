@@ -1,5 +1,7 @@
 package com.project.rural.market;
 
+import java.util.ArrayList;
+
 public class MarketDTO {
 
 	private String seq;
@@ -17,7 +19,15 @@ public class MarketDTO {
 	private String isnew; //새글 표시
 	private String farmername;
 
+	private ArrayList<String> images;
 
+
+	public ArrayList<String> getImages() {
+		return images;
+	}
+	public void setImages(ArrayList<String> images) {
+		this.images = images;
+	}
 	public String getFarmername() {
 		return farmername;
 	}

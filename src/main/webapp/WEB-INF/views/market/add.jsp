@@ -47,7 +47,7 @@ h3 {
 		<div class="container">
 
 
-			<form method="POST" action="/rural/market/addok.do">
+			<form method="POST" action="/rural/market/addok.do" enctype="multipart/form-data">
 				<h3>등록 양식</h3>
 				<table class="table">
 					<tr>
@@ -100,24 +100,25 @@ h3 {
 					</tr>
 					<tr>
 						<th>썸네일 이미지 첨부</th>
-						<td colspan="3"><input type="file" name="image" id="image"
-							class="form-control" required accept=".gif, .jpg, .png"></td>
+						<td colspan="3"><input type="file" name="image" accept=".gif, .jpg, .png"></td>
 					</tr>
 					<tr>
-						<th>세부 이미지 첨부</th>
-						<td colspan="3"><input type="file" name="image" id="image" class="form-control" required accept=".gif, .jpg, .png"></td>
+						<th>세부 이미지 첨부<br>(최대 3개)</th>
+						<td colspan="3"><input type="file" name="image1" accept=".gif, .jpg, .png"/></td>
 					</tr>
 
 
 				</table>
 
 				<div class="btns">
+					<input type="button" value="이미지 추가하기" class="btn btn-success" id="btnAdd" />
+
 					<button type="submit" class="btn btn-success">등록하기</button>
 					<button type="button" class="btn btn-secondary"
 						onclick="history.back();">뒤로가기</button>
 				</div>
 
-				</form>
+			</form>
 		</div>
 
 
@@ -130,18 +131,26 @@ h3 {
 
 	let index = 1;
 
-	$("#btnAdd").click(function() {
+	$('#btnAdd').click(function() {
 
 		index++;
 
-		$("table tbody").append("<tr><th>이미지: </th><td><input type=\"file\" name=\"attach" + index + "\" class=\"form-control\"><input type=\"button\" value=\"delete\" class=\"btn btn-default\" onclick=\"delBtn();\" accept=\".gif, .jpg, .png\"></td></tr>");
+		$("table tbody").append("<tr><th></th><td><input type='file' name='image" + index + "\" class='form-control' /><input type='button' value='delete' class='btn btn-secondary' onclick='delBtn();'  accept='.gif, .jpg, .png' /></td></tr>")
 
+		if ( index > 2 ) {
+			btnDisabled()
+		}
 	});
-
 
 	function delBtn() {
 		$(event.srcElement).parent().parent().remove();
 	}
+
+	function btnDisabled()  {
+		  const target = document.getElementById('btnAdd');
+		  target.disabled = true;
+	}
+
 
 	//주소 검색
       function goPopup(){

@@ -48,6 +48,7 @@ public class MarketDAO {
 			pstat.setString(8, dto.getDetail());
 			pstat.setString(9, dto.getImage());
 
+			System.out.println(sql);
 			return pstat.executeUpdate();
 
 		} catch (Exception e) {
@@ -422,4 +423,62 @@ public class MarketDAO {
 		return null;
 
 	}
+
+	public void addImg(ArrayList<String> images) {
+		try {
+
+			String seq = "";
+			String sqlCom = "select max(seq) as seq from tblMarket";
+			pstat = conn.prepareStatement(sqlCom);
+
+			rs = pstat.executeQuery();
+
+			if(rs.next()) {
+				seq = rs.getString("seq");
+			}
+			String sql = "insert into tblMarketImg (seq, image, pseq) values (seqMarketImg.nextVal, ?,?)";
+
+			for(String image : images) {
+				pstat = conn.prepareStatement(sql);
+				pstat.setString(1, image);
+				pstat.setString(2, seq);
+
+				pstat.executeUpdate();
+			}
+
+		} catch (Exception e) {
+			System.out.println("MarketDAO.addImg()");
+			e.printStackTrace();
+		}
+
+	}
+
+	   public ArrayList<String> listImg(String seq) {
+
+
+		      try {
+
+		         String sql = "select image from tblMarketImg where pseq=?";
+
+		         pstat = conn.prepareStatement(sql);
+		         pstat.setString(1, seq);
+
+		         rs = pstat.executeQuery();
+
+		         ArrayList<String> listImg = new ArrayList<String>();
+
+		         while ( rs.next() ) {
+		            listImg.add(rs.getString("image"));
+		         }
+
+		         return listImg;
+
+		      } catch (Exception e) {
+		         e.printStackTrace();
+		      }
+
+		      return null;
+		   }
+
+
 }

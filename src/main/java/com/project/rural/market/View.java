@@ -35,10 +35,14 @@ public class View extends HttpServlet {
 		//- 현재보고 있는 글에 달린 QnA목록 가져오기
 		ArrayList<MarketQADTO> qlist = dao.listQna(seq); //현재 글번호(= 댓글의 부모글 번호)
 
+		//이미지 불러오기
+		ArrayList<String> ilist = dao.listImg(seq);
+
 
 		//3.
 		req.setAttribute("dto", dto);
 		req.setAttribute("qlist", qlist);
+		req.setAttribute("ilist", ilist);
 
 
 

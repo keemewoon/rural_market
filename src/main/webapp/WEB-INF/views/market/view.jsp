@@ -186,7 +186,16 @@ table>tbody>tr:nth-child(2)>th {
 				</table>
 				<div class="row justify-content-md-center place-padding2">
 
-					<div class="detail">${dto.detail}</div>
+					<div class="detail">${dto.detail}
+
+					<div class="list">
+							<c:forEach items="${ ilist }" var="image" begin="0" end="3">
+								<img class="img" src="/rural/assets/img/market/${ image }">
+							</c:forEach>
+					</div>
+
+					</div>
+
 				</div>
 
 				<c:if test="${not empty id}">
