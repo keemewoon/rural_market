@@ -3,6 +3,7 @@ package com.project.rural.market;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("/market/likeok.do")
-public class LikeOk extends HttpServlet {
+@WebServlet("/market/likedel.do")
+public class Likedel extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -25,6 +26,7 @@ public class LikeOk extends HttpServlet {
 		// 2.
 		String seq = req.getParameter("seq");
 
+		System.out.println("서블릿seq: "+ seq);
 		// 3.
 		MarketDAO dao = new MarketDAO();
 		LikeDTO dto = new LikeDTO();
@@ -32,11 +34,10 @@ public class LikeOk extends HttpServlet {
 		// 로그인한 아이디세션 가져오기
 		HttpSession session = req.getSession();
 
-		dto.setId(session.getAttribute("id").toString()); //좋아요 누른 사용자
-		dto.setSeq(seq); //좋아요 누른 글번호
+		dto.setId(session.getAttribute("id").toString()); // 좋아요 누른 사용자
+		dto.setSeq(seq); // 좋아요 누른 글번호
 
-		int result = dao.addlike(dto);
-
+		int result = dao.dellike(dto);
 
 		if (result == 1) {
 			resp.sendRedirect("/rural/market/list.do?");
@@ -54,6 +55,7 @@ public class LikeOk extends HttpServlet {
 			writer.print("</html>");
 
 			writer.close();
+
 
 		}
 

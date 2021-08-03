@@ -45,11 +45,10 @@ h3 {
 	<!-- 구현부 -->
 	<div class="section-padding2">
 		<div class="container">
-
+		<h2 style="margin-bottom: 30px;"> <strong>글쓰기</strong></h2>
 
 			<form method="POST" action="/rural/market/addok.do"
 				enctype="multipart/form-data">
-				<h3>등록 양식</h3>
 				<table class="table">
 					<tr>
 						<th>분류</th>
@@ -117,10 +116,8 @@ h3 {
 
 				</table>
 
-				<div class="btns">
-					<input type="button" value="이미지 추가하기" class="btn btn-success"
-						id="btnAdd" />
-
+			<div class="btns">
+						<input type="button" value="이미지 추가하기" class="btn btn-success" id="btnAdd" name="btnAdd" />
 					<button type="submit" class="btn btn-success">등록하기</button>
 					<button type="button" class="btn btn-secondary"
 						onclick="history.back();">뒤로가기</button>
@@ -140,10 +137,9 @@ h3 {
 	let index = 1;
 
 	$('#btnAdd').click(function() {
-
 		index++;
 
-		$("table tbody").append("<tr><th></th><td><input type='file' name='image" + index + "\" class='form-control' /><input type='button' value='delete' class='btn btn-secondary' onclick='delBtn();'  accept='.gif, .jpg, .png' /></td></tr>")
+		$("table tbody").append("<tr><th></th><td><input type='file' name='image" + index + "\" class='form-control' /><input type='button' value='삭제' class='btn btn-secondary' onclick='delBtn();'  accept='.gif, .jpg, .png' /></td></tr>")
 
 		if ( index > 2 ) {
 			btnDisabled()
@@ -160,6 +156,8 @@ h3 {
 	}
 
 
+
+
 	//주소 검색
       function goPopup(){
          // IE에서 opener관련 오류가 발생하는 경우, window에 이름을 명시해줍니다.
@@ -167,9 +165,7 @@ h3 {
 
          // 주소검색을 수행할 팝업 페이지를 호출합니다.
          // 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(http://www.juso.go.kr/addrlink/addrLinkUrl.do)를 호출하게 됩니다.
-         var pop = window.open("<%=request.getContextPath()%>
-		/inc/jusoPopup.jsp", "pop",
-					"width=570,height=420, scrollbars=yes, resizable=yes");
+         var pop = window.open("<%= request.getContextPath() %>/inc/jusoPopup.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes");
 		}
 
 		function jusoCallBack(roadFullAddr, roadAddrPart1, addrDetail,

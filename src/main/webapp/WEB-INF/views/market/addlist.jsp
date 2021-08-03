@@ -10,6 +10,13 @@
 <%@ include file="/inc/asset.jsp"%>
 
 <style>
+
+.pagebar {
+	text-align: center;
+	display: block;
+}
+
+
 </style>
 </head>
 <body>
@@ -40,6 +47,8 @@
 
 	<div class="favourite-place section-padding2">
 		<div class="container">
+			<h2 style="margin-bottom: 30px;"> <strong>등록내역보기</strong>
+			</h2>
 			<table class="table text-center table-hover">
 				<thead class="thead-light text-center">
 					<tr>
@@ -63,8 +72,8 @@
 								<button type="button" class="btn btn-danger btn-sm"
 									onclick="location.href='/rural/market/del.do?seq=${dto.seq}';">삭제하기</button>
 							</td>
-							<td><button type="button" class="btn btn-primary btn-lg"
-									onclick="location.href='/rural/market/view.do?seq=${dto.seq}#qna';">문의내역</button></td>
+							<td><button type="button" class="btn btn-success btn-lg"
+									onclick="location.href='/rural/market/view.do?seq=${dto.seq}#listQna';">문의내역</button></td>
 						</tr>
 					</c:forEach>
 
@@ -73,7 +82,9 @@
 			</table>
 
 			<!-- 페이징바 -->
-			<div class="row justify-content-md-center" style="width: 100%">${pagebar}</div>
+			<div class="row justify-content-md-center" style="width: 100%">
+				${pagebar}
+			</div>
 
 
 		</div>
@@ -99,6 +110,9 @@
 			js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
 			fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
+
+
+
 	</script>
 </body>
 </html>

@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 @WebServlet("/market/list.do")
@@ -18,10 +19,19 @@ public class List extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+		//세션에 저장되어있는 id가져오기 -> 관심내역보기에 쓰기위함
+		HttpSession session = req.getSession();
+		String id = (String)session.getAttribute("id");
+		/*
+		 * System.out.println("아이디:" + id);
+		 */
+
+
 		//검색기능
 		String search = req.getParameter("search");
 		String isSearch = "n";
-		String isLike = "n";
+
+		String isLike = req.getParameter("isLike");
 
 		//마켓카테고리 검색("쌀/잡곡" 등)
 		String marketinfo = req.getParameter("marketinfo");
@@ -31,6 +41,15 @@ public class List extends HttpServlet {
 		}
 
 
+		if(isLike != null && (isLike.equals("on") || isLike.equals("y")))
+			isLike = "y";
+		else
+			isLike = "n";
+
+		/*
+		 * System.out.println("isLike"+ req.getParameter("isLike"));
+		 * System.out.println("keyWord"+ req.getParameter("search"));
+		 */
 
 
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -38,6 +57,8 @@ public class List extends HttpServlet {
 		map.put("search", search);
 		map.put("isSearch", isSearch);
 		map.put("isLike", isLike);
+		map.put("id", id);
+
 
 
 
@@ -54,13 +75,13 @@ public class List extends HttpServlet {
 		// -> 보고 싶은 페이지를 정하기 위한 처리
 		int nowPage = 0; // 현재 페이지 번호
 		int totalCount = 0; // 총 게시물 수
-		int pageSize = 9;// 한 페이지당 출력할 게시물 수
+		int pageSize = 6;// 한 페이지당 출력할 게시물 수
 		int totalPage = 0; // 총 페이지 수
 		int begin = 0; // 가져올 게시물 시작 위치
 		int end = 0; // 가져올 게시물 끝 위치
 		int n = 0; // 페이지바 제작
 		int loop = 0; // 페이지바 제작
-		int blockSize = 10; // 페이지바 제작
+		int blockSize = 5; // 페이지바 제작
 
 		//list.do > list.do?page=1
 		//list.do?page=3
@@ -105,14 +126,12 @@ public class List extends HttpServlet {
 			pagebar += String.format("<li class='page-item disabled'><a class='page-link' href='#!' >Previous</a></li> " );
 
 		} else {
-				if(isSearch.equals("y")) {
-					pagebar += String.format(" <li class='page-item'><a class='page-link' href='/rural/farm/list.do?search=%s&page=%d' tabindex='-1'>Previous</a></li> "
-													, search, n-1);
-				} else {
-
-					pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/list.do?&page=%d' >Previous</a></li> ",n-1);
-
-				}
+			if (isSearch.equals("y")) {
+					pagebar += String.format(" <li class='page-item'><a class='page-link' href='/rural/market/list.do?marketinfo=%s&search=%s&isLike=%s&page=%d' tabindex='-1'>Previous</a></li> "
+													,marketinfo, search, isLike, n-1);
+			}else {
+				pagebar += String.format(" <li class='page-item'><a class='page-link' href='/rural/market/list.do?page=%d#list' tabindex='-1'>Previous</a></li> ", n-1);
+			}
 		}
 
 
@@ -126,14 +145,12 @@ public class List extends HttpServlet {
 			if( n == nowPage) {
 				pagebar += String.format("<li class='page-item active'><a class='page-link' href='#!'>%d</a></li>", n);
 			} else {
-
 				if (isSearch.equals("y")) {
-
-					pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/list.do?search=%s&page=%d'>%d</a></li>"
-												,search , n, n);
-
+					pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/list.do?marketinfo=%s&search=%s&isLike=%s&page=%d'>%d</a></li>"
+							,marketinfo ,search, isLike, n, n);
 				}else {
-					pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/list.do?page=%d'>%d</a></li>", n, n);
+					pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/list.do?page=%d'>%d</a></li>"
+							,n, n);
 				}
 			}
 			loop++;
@@ -144,11 +161,12 @@ public class List extends HttpServlet {
 		if( n > totalPage ) {
 			pagebar += String.format("<li class='page-item disabled'><a class='page-link' href='#!'>Next</a> </li>");
 		} else {
-			if(isSearch.equals("y")) {
-				pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/list.do?search=%s&page=%d'>Next</a> </li>"
-						, search, n);
-			} else {
-				pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/list.do?page=%d'>Next</a> </li>", n);
+			if (isSearch.equals("y")) {
+				pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/list.do?marketinfo=%s&search=%s&isLike=%s&page=%d'>Next</a> </li>"
+						,marketinfo, search, isLike, n);
+			}else {
+				pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/list.do?page=%d'>Next</a> </li>"
+						, n);
 			}
 		}
 
@@ -169,6 +187,7 @@ public class List extends HttpServlet {
 		req.setAttribute("totalPage", totalPage);
 		req.setAttribute("nowPage", nowPage);
 
+		req.setAttribute("isLike", isLike);
 		req.setAttribute("pagebar", pagebar);
 
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/market/list.jsp");

@@ -86,7 +86,6 @@ table tr th {
 .pagebar {
 	text-align: center;
 	display: block;
-	border: 1px solid red;
 }
 
 
@@ -112,6 +111,7 @@ table tr th {
 								<button type="button" class="btn btn-dark" id="registList"
 									onclick="location.href='/rural/market/addlist.do?id=${dto.id}';">등록내역보기</button>
 							</c:if>
+
 						</div>
 					</div>
 				</div>
@@ -125,11 +125,11 @@ table tr th {
 	<div class="section-padding2">
 		<div class="container">
 
-			<form method="GET" action="/rural/market/list.do">
+			<form method="GET" id="listForm" name="listForm" action="/rural/market/list.do">
 				<table class="table table-bordered">
 					<tr>
 						<th>키워드 검색</th>
-						<td><input type="text" id="search" name="search"
+						<td><input type="text" id="search" name="search" value="${map.search}"
 							class="form-control col-lg-13" placeholder="검색어를 입력해주세요."></td>
 					</tr>
 				</table>
@@ -137,9 +137,9 @@ table tr th {
 				<div class="row justify-content-md-center"
 					style="margin-bottom: 30px;">
 					<input class="btn btn-success col-sm-2" type="submit"
-						value="SEARCH">
+						value="검색하기">
 				</div>
-			</form>
+
 
 			<c:if test="${map.isSearch == 'y' && map.marketinfo == null}">
 				<div class="alert alert-secondary" style="padding: 30px;">'${map.search}'으로
@@ -156,47 +156,43 @@ table tr th {
 					<div class="section-padding2">
 						<div class="container">
 
-
-							<form name="navsearch" method="GET"
-								action="/rural/market/list.do">
-
 								<!-- MarketInfo 메뉴 -->
-								<form method="GET" action="/rural/market/list.do">
+
 								<div id="menubox">
 									<ul class="nav nav-tabs" id="navibar">
 										<li class="nav-item"><a class="nav-link active"
 											href="/rural/market/list.do">전체보기</a></li>
 										<li class="nav-item"><a class="nav-link active"
-											href="/rural/market/list.do?marketinfo=쌀/잡곡&search=${ search }">
+											href="/rural/market/list.do?marketinfo=쌀/잡곡&search=${ map.search }&isLike=${ map.isLike }">
 												쌀/잡곡</a></li>
 										<li class="nav-item"><a class="nav-link active"
-											href="/rural/market/list.do?marketinfo=과일/견과&search=${ search }">
+											href="/rural/market/list.do?marketinfo=과일/견과&search=${ map.search }&isLike=${ map.isLike }">
 												과일/견과</a></li>
 										<li class="nav-item"><a class="nav-link active"
-											href="/rural/market/list.do?marketinfo=채소/버섯&search=${ search }">
+											href="/rural/market/list.do?marketinfo=채소/버섯&search=${ map.search }&isLike=${ map.isLike }">
 												채소/버섯</a></li>
 										<li class="nav-item"><a class="nav-link active"
-											href="/rural/market/list.do?marketinfo=정육/계란&search=${ search }">
+											href="/rural/market/list.do?marketinfo=정육/계란&search=${ map.search }&isLike=${ map.isLike }">
 												정육/계란</a></li>
 										<li class="nav-item"><a class="nav-link active"
-											href="/rural/market/list.do?marketinfo=김치&search=${ search }">
+											href="/rural/market/list.do?marketinfo=김치&search=${ map.search }&isLike=${ map.isLike }">
 												김치</a></li>
 										<li class="nav-item"><a class="nav-link active"
-											href="/rural/market/list.do?marketinfo=홍삼/건강식품&search=${ search }">
+											href="/rural/market/list.do?marketinfo=홍삼/건강식품&search=${ map.search }&isLike=${ map.isLike }">
 												홍삼/건강식품</a></li>
 										<li class="nav-item"><a class="nav-link active"
-											href="/rural/market/list.do?marketinfo=전통주&search=${ search }">
+											href="/rural/market/list.do?marketinfo=전통주&search=${ map.search }&isLike=${ map.isLike }">
 												전통주</a></li>
 									</ul>
 								</div>
-							</form>
+
 
 
 							<div class="row justify-content-between"
 								style="padding: 15px; margin-top: 20px;">
-								<!-- 관심내역 라디오박스 -->
+								<!-- 관심내sss역 라디오박스 -->
 								<div>
-									<input type="checkbox" id="likeList" name="likelist"><label for="likeList" style="margin-left: 15px;">관심내역 보기 </label>
+									<input type="checkbox" id="isLike" name="isLike" <c:if test="${map.isLike eq 'y'}">checked</c:if> /> <label for="likeList" style="margin-left: 15px;">관심내역 보기 </label>
 								</div>
 
 								<c:if test="${not empty id &&  lv == 2}">
@@ -204,7 +200,7 @@ table tr th {
 									onclick="location.href='/rural/market/add.do';">글쓰기</button>
 								</c:if>
 							</div>
-
+						</form>
 
 
 							<!-- Section Tittle -->
@@ -237,15 +233,15 @@ table tr th {
 														</h3>
 
 														<!-- 좋아요 기능 -->
-														<c:if test="${not empty dto.seq && dto.seq == dto.seq}">
+														<c:if test="${map.isLike eq 'n'}">
 															<img src="/rural/assets/img/market/unlike.png"
 																id="unlike" name="unlike" class='ml-auto p-2 like'
 																onclick="location.href='/rural/market/likeok.do?seq=${dto.seq}';">
 														</c:if>
-														<c:if test="${empty dto.seq}">
+														<c:if test="${map.isLike eq 'y'}">
 															<img src="/rural/assets/img/market/like.png" id="like"
 																name="like" class='ml-auto p-2 like'
-																onclick="location.href='/rural/market/likeok.do?seq=${dto.seq}';">
+																onclick="location.href='/rural/market/likedel.do?seq=${dto.seq}';">
 														</c:if>
 														<input type="hidden" name="seq" value="${dto.seq}">
 
@@ -280,6 +276,7 @@ table tr th {
 		</div>
 	</div>
 
+
 	<%@ include file="/inc/footer.jsp"%>
 	<%@ include file="/inc/init.jsp"%>
 
@@ -292,11 +289,11 @@ table tr th {
 
 
 		$(document).ready(function(){
-		    $("#likeList").change(function(){
-		        if($("#likeList").is(":checked")){
-		            ${map.isLike} == 'y';
+		    $("#isLike").change(function(){
+		        if($("#isLike").is(":checked")){
+					$('#listForm').submit();
 		        }else{
-		        	location.href = "/rural/market/list.do";
+		        	location.href = "/rural/market/list.do?marketinfo=${map.marketinfo}&search=${map.search}&isLike=";
 		        }
 		    });
 		});

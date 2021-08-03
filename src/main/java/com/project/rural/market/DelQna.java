@@ -30,8 +30,11 @@ public class DelQna extends HttpServlet {
 		// 2.
 		MarketDAO dao = new MarketDAO();
 
-		int result = dao.delQna(seq); // 1,0
 
+
+		int result = dao.delQna(seq); // 1,0
+		System.out.println("서블릿 pseq:" + pseq);
+		System.out.println("서블릿 seq:" + seq);
 
 
 

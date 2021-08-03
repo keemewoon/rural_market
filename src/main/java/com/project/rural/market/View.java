@@ -38,11 +38,17 @@ public class View extends HttpServlet {
 		//이미지 불러오기
 		ArrayList<String> ilist = dao.listImg(seq);
 
+		//좋아요 몇개인지 불러오기
+		int cnt = dao.likecnt(seq);
+
 
 		//3.
 		req.setAttribute("dto", dto);
 		req.setAttribute("qlist", qlist);
 		req.setAttribute("ilist", ilist);
+		req.setAttribute("cnt", cnt);
+
+		System.out.println("cnt: " + cnt);
 
 
 

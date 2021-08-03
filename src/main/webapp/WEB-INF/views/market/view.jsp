@@ -174,7 +174,7 @@ table>tbody>tr:nth-child(2)>th {
 						</tr>
 						<tr>
 							<th>좋아요</th>
-							<td>좋아요</td>
+							<td><img src="/rural/assets/img/market/like.png" style="width:25px; height: auto; margin-right: 5px;"> ${cnt}개 </td>
 							<td></td>
 						</tr>
 						<tr>
@@ -213,15 +213,20 @@ table>tbody>tr:nth-child(2)>th {
 				</div>
 				<div>
 					<c:if test="${not empty id}">
-						<c:if test="${dto.id == id || lv == 3}">
+						<c:if test="${dto.id == id}">
 							<div class="row justify-content-md-center" style="padding: 30px;">
-								<button type="button" class="btn btn-success btns"
+								<button type="button" class="btn btn-secondary btns"
 									style="margin-right: 20px;"
 									onclick="location.href='/rural/market/edit.do?seq=${dto.seq}';">수정하기</button>
-								<button type="submit" id="del" class="btn btn-secondary btns"
+								<button type="submit" id="del" class="btn btn-danger btns"
 									onclick=del(${dto.seq})>삭제하기</button>
 							</div>
 						</c:if>
+					</c:if>
+					<c:if test= "${lv == 3 }">
+						<div class="row justify-content-md-center" style="padding: 30px;">
+							<button type="submit" id="del" class="btn btn-danger btns" onclick=del(${dto.seq})>삭제하기</button>
+						</div>
 					</c:if>
 				</div>
 
@@ -238,7 +243,7 @@ table>tbody>tr:nth-child(2)>th {
 
 					<!-- 사용자: QnA쓰기 form -->
 					<form method="POST" action="/rural/market/addqna.do">
-						<c:if test="${not empty id && id == 'user'}">
+						<c:if test="${not empty id && lv == 1}">
 							<table id="addQna" class="qna">
 								<tr>
 									<td><input type="text" name="title" id="title"
@@ -253,7 +258,7 @@ table>tbody>tr:nth-child(2)>th {
 							</table>
 							<div class="row justify-content-md-center"
 								style="margin-bottom: 30px;">
-								<input class="btn btn-secondary" type="submit" value="등록하기">
+								<input class="btn btn-success" type="submit" value="등록하기">
 							</div>
 							<!-- 현재 보고있는 글의 번호 -->
 							<input type="hidden" name="pseq" value="${dto.seq}">
@@ -307,35 +312,53 @@ table>tbody>tr:nth-child(2)>th {
 												<div class="qbody">
 													<a class="qnaatag" style="color: #939393;">Q.</a><br>
 													${qdto.detailq}
+													<div class= "mt-auto p-2" style =" color: #C1C1C1; ">${qdto.regdateq}</div>
 												</div>
 
+												<c:if test="${qdto.id == id }">
+													<button type="button" id="del"
+														class="btn btn-danger btns" style="margin-bottom: 20px;"
+														onclick=delqna(${qdto.seq},${dto.seq})>문의삭제하기</button>
+												</c:if>
+												<c:if test="${lv == 3 }">
+													<button type="button" id="del"
+														class="btn btn-danger btns" style="margin-bottom: 20px;"
+														onclick=delqna(${qdto.seq},${dto.seq})>문의삭제하기</button>
+												</c:if>
 
-												<button type="submit" id="del"
-													class="btn btn-secondary btns" style="margin-bottom: 20px;"
-													onclick=delqna(${qdto.seq},${dto.seq})>문의삭제하기</button>
 
 
+												<c:if test="${ not empty qdto.detaila }">
 
-												<c:if test="${ not empty qdto.detaila}">
+													<div class="qbody""><a class="qnaatag" style="color: #939393;">A.</a><br>
+														${qdto.detaila}
+														<div class= "mt-auto p-2" style =" color: #C1C1C1; ">${qdto.regdatea}</div>
+														</div>
 
-													<div class="qbody">
-														<a class="qnaatag" style="color: #939393;">A.</a><br>${qdto.detaila}</div>
 													<c:if test="${dto.id == id }">
 														<button type="submit" id="del"
-															class="btn btn-secondary btns"
+															class="btn btn-danger btns"
 															style="margin-bottom: 20px;"
 															onclick=delreqna(${qdto.seq},${dto.seq})>답변삭제하기</button>
 													</c:if>
 												</c:if>
+
+												<c:if test="${lv == 3 }">
+													<button type="submit" id="del" class="btn btn-danger btns"
+														style="margin-bottom: 20px;"
+														onclick=delreqna(${qdto.seq},${dto.seq})>답변삭제하기</button>
+												</c:if>
+
+
+
 
 												<c:if test="${dto.id == id }">
 													<!-- 답변달기 입력 폼 -->
 													<textarea name="detaila" id="detaila" class="form-control"
 														style="height: 100px; resize: none;" required
 														placeholder="문의사항 답변을 입력해주세요."></textarea>
-												</c:if>
 
-												<c:if test="${ not empty qdto.detaila }">
+												<c:if test="${ not empty qdto.detaila}">
 													<input class="btn btn-secondary" style="margin: 30px;"
 														type="submit" value="답변수정"
 														onclick="location.href='/rural/market/list.do';">
@@ -345,6 +368,7 @@ table>tbody>tr:nth-child(2)>th {
 													<input class="btn btn-secondary" style="margin: 30px;"
 														type="submit" value="답변달기"
 														onclick="location.href='/rural/market/list.do';">
+												</c:if>
 												</c:if>
 
 
