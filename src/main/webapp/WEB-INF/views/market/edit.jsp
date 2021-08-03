@@ -47,7 +47,7 @@
 	<!-- 이미지 카테고리명 -->
 	<div class="slider-area ">
 		<div class="single-slider slider-height2 d-flex align-items-center"
-			data-background="/rural/assets/img/hero/about.jpg">
+			data-background="/rural/assets/img/market/about.jpg">
 			<div class="container">
 				<div class="row">
 					<div class="col-xl-12">

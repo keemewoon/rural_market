@@ -21,6 +21,7 @@ public class List extends HttpServlet {
 		//검색기능
 		String search = req.getParameter("search");
 		String isSearch = "n";
+		String isLike = "n";
 
 		//마켓카테고리 검색("쌀/잡곡" 등)
 		String marketinfo = req.getParameter("marketinfo");
@@ -29,10 +30,14 @@ public class List extends HttpServlet {
 			isSearch = "y";
 		}
 
+
+
+
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("marketinfo", marketinfo);
 		map.put("search", search);
 		map.put("isSearch", isSearch);
+		map.put("isLike", isLike);
 
 
 
@@ -100,7 +105,14 @@ public class List extends HttpServlet {
 			pagebar += String.format("<li class='page-item disabled'><a class='page-link' href='#!' >Previous</a></li> " );
 
 		} else {
-			pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/list.do?page=%d' >Previous</a></li> ", n-1);
+				if(isSearch.equals("y")) {
+					pagebar += String.format(" <li class='page-item'><a class='page-link' href='/rural/farm/list.do?search=%s&page=%d' tabindex='-1'>Previous</a></li> "
+													, search, n-1);
+				} else {
+
+					pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/list.do?&page=%d' >Previous</a></li> ",n-1);
+
+				}
 		}
 
 
@@ -108,14 +120,21 @@ public class List extends HttpServlet {
 		if(totalPage == 0) {
 			pagebar += "<li class='active'><a href='#!'>1</a></li>";
 		}
+
 		//부트스트랩 페이징
 		while(!(loop > blockSize || n > totalPage )) {
 			if( n == nowPage) {
 				pagebar += String.format("<li class='page-item active'><a class='page-link' href='#!'>%d</a></li>", n);
 			} else {
 
-				pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/list.do?page=%d'>%d</a></li>", n, n);
+				if (isSearch.equals("y")) {
 
+					pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/list.do?search=%s&page=%d'>%d</a></li>"
+												,search , n, n);
+
+				}else {
+					pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/list.do?page=%d'>%d</a></li>", n, n);
+				}
 			}
 			loop++;
 			n++;
@@ -125,7 +144,12 @@ public class List extends HttpServlet {
 		if( n > totalPage ) {
 			pagebar += String.format("<li class='page-item disabled'><a class='page-link' href='#!'>Next</a> </li>");
 		} else {
-			pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/list.do?page=%d'>Next</a> </li>", n);
+			if(isSearch.equals("y")) {
+				pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/list.do?search=%s&page=%d'>Next</a> </li>"
+						, search, n);
+			} else {
+				pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/list.do?page=%d'>Next</a> </li>", n);
+			}
 		}
 
 

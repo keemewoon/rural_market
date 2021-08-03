@@ -100,7 +100,7 @@ table tr th {
 	<!-- 이미지 카테고리명 -->
 	<div class="slider-area ">
 		<div class="single-slider slider-height2 d-flex align-items-center"
-			data-background="/rural/assets/img/hero/about.jpg">
+			data-background="/rural/assets/img/market/about.jpg">
 
 			<div class="container">
 				<div class="row">
@@ -195,11 +195,9 @@ table tr th {
 							<div class="row justify-content-between"
 								style="padding: 15px; margin-top: 20px;">
 								<!-- 관심내역 라디오박스 -->
-								<form method="GET" action="/rural/market/likelist.do">
 								<div>
-									<input type="checkbox" id="applyList"><label for="applyList" style="margin-left: 15px;">관심내역 보기 </label>
+									<input type="checkbox" id="likeList" name="likelist"><label for="likeList" style="margin-left: 15px;">관심내역 보기 </label>
 								</div>
-								</form>
 
 								<c:if test="${not empty id &&  lv == 2}">
 								<button type="button" class="btn btn-success"
@@ -291,6 +289,18 @@ table tr th {
 			//상태 복원
 			$('#search').val('${map.search}');
 		</c:if>
+
+
+		$(document).ready(function(){
+		    $("#likeList").change(function(){
+		        if($("#likeList").is(":checked")){
+		            ${map.isLike} == 'y';
+		        }else{
+		        	location.href = "/rural/market/list.do";
+		        }
+		    });
+		});
+
 
 
 

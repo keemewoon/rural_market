@@ -78,7 +78,7 @@ public class MarketDAO {
 
 			}
 
-			String sql = String.format("select * from (select b.*, rownum as rnum from tblMarket b %s) where rnum between %s and %s"
+			String sql = String.format("select * from (select b.*, rownum as rnum from tblMarket b %s) where rnum between %s and %s order by seq desc"
 		               , where
 		               , map.get("begin")
 		               , map.get("end"));
@@ -372,7 +372,7 @@ public class MarketDAO {
 		return 0;
 	}
 
-	// market > likeok 서블릿
+	// market > likeok 서블릿(좋아요 클릭)
 	public int addlike(LikeDTO dto) {
 		try {
 
@@ -395,11 +395,12 @@ public class MarketDAO {
 		return 0;
 	}
 
+	//market > likelist 서블릿(좋아요 누른 게시글 확인)
 	ArrayList<LikeDTO> likelist(String id) {
 
 		try {
 
-			String sql = String.format("select * from tblMarket m inner join tblMarketlike l on m.seq = l.seq where m.id = '%s' ", id);
+			String sql = String.format("select * from tblMarket m inner join tblMarketlike l on m.seq = l.seq where m.id =  '%s' ", id);
 
 			pstat = conn.prepareStatement(sql);
 
@@ -430,6 +431,9 @@ public class MarketDAO {
 		return null;
 
 	}
+
+
+
 
 	public void addImg(ArrayList<String> images) {
 		try {
@@ -631,10 +635,11 @@ public class MarketDAO {
 			}
 
 		} catch (Exception e) {
-			System.out.println("BoardDAO.getTotalCount()");
+			System.out.println("MarketDAO.getTotalCount()");
 			e.printStackTrace();
 		}
 
 		return 0;
 	}
+
 }

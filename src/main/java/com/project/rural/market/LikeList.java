@@ -20,6 +20,7 @@ public class LikeList extends HttpServlet {
 		HttpSession session = req.getSession();
 		String seq = req.getParameter("seq");
 		String id = (String)session.getAttribute("id");
+		String isLike = "n";
 
 		MarketDAO dao = new MarketDAO();
 		LikeDTO dto = new LikeDTO();
@@ -30,6 +31,20 @@ public class LikeList extends HttpServlet {
 
 
 		ArrayList<LikeDTO> likelist =  dao.likelist(id);
+
+		/*
+		 * int result = dao.likelist(dto); //1,0
+		 *
+		 * if(result == 1) { resp.sendRedirect("/rural/market/list.do"); //보고있던 글 번호를
+		 * 가지고 돌아가기 }else { resp.setCharacterEncoding("UTF-8");
+		 *
+		 * PrintWriter writer = resp.getWriter(); writer.print("<html>");
+		 * writer.print("<body>"); writer.print("<script>");
+		 * writer.print("alert('error');"); writer.print("history.back()");
+		 * writer.print("</script>"); writer.print("</body>"); writer.print("</html>");
+		 *
+		 * writer.close(); }
+		 */
 
 
 
