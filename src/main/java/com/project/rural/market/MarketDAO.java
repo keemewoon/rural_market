@@ -408,7 +408,7 @@ public class MarketDAO {
 			pstat.setString(1, dto.getId());
 			pstat.setString(2, dto.getSeq());
 
-			System.out.println("MarketDAO:" + dto.getSeq());
+			/* System.out.println("MarketDAO:" + dto.getSeq()); */
 
 			return pstat.executeUpdate();
 
@@ -710,7 +710,7 @@ public class MarketDAO {
 			String sql = String.format("select seq, count(seq) as cnt from tblMarketlike where seq = '%s' group by seq"
 							,seq);
 
-			System.out.println("sql:" + sql);
+			/* System.out.println("sql:" + sql); */
 
 			pstat = conn.prepareStatement(sql);
 

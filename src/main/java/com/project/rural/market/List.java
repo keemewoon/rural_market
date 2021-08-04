@@ -192,7 +192,9 @@ public class List extends HttpServlet {
 		req.setAttribute("nowPage", nowPage);
 
 		req.setAttribute("isLike", isLike);
+		req.setAttribute("search", search);
 		req.setAttribute("pagebar", pagebar);
+		req.setAttribute("marketinfo", marketinfo);
 
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/market/list.jsp");
 		dispatcher.forward(req, resp);
