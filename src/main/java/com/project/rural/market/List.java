@@ -46,10 +46,10 @@ public class List extends HttpServlet {
 		else
 			isLike = "n";
 
-		/*
-		 * System.out.println("isLike"+ req.getParameter("isLike"));
-		 * System.out.println("keyWord"+ req.getParameter("search"));
-		 */
+
+//		 System.out.println("isLike "+ req.getParameter("isLike"));
+//		 System.out.println("keyWord "+ req.getParameter("search"));
+
 
 
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -123,14 +123,14 @@ public class List extends HttpServlet {
 
 		if( n == 1 ) {
 
-			pagebar += String.format("<li class='page-item disabled'><a class='page-link' href='#!' >Previous</a></li> " );
+			pagebar += String.format("<li class='page-item disabled'><a class='page-link' href='#!' ><img src='/rural/assets/img/logo/previous.png' style='width:14px;'/></a></li> " );
 
 		} else {
 			if (isSearch.equals("y")) {
-					pagebar += String.format(" <li class='page-item'><a class='page-link' href='/rural/market/list.do?marketinfo=%s&search=%s&isLike=%s&page=%d' tabindex='-1'>Previous</a></li> "
+					pagebar += String.format(" <li class='page-item'><a class='page-link' href='/rural/market/list.do?marketinfo=%s&search=%s&isLike=%s&page=%d' tabindex='-1'><img src='/rural/assets/img/logo/previous.png' style='width:14px;'/></a></li> "
 													,marketinfo, search, isLike, n-1);
 			}else {
-				pagebar += String.format(" <li class='page-item'><a class='page-link' href='/rural/market/list.do?page=%d#list' tabindex='-1'>Previous</a></li> ", n-1);
+				pagebar += String.format(" <li class='page-item'><a class='page-link' href='/rural/market/list.do?page=%d#list' tabindex='-1'><img src='/rural/assets/img/logo/previous.png' style='width:14px;'/></a></li> ", n-1);
 			}
 		}
 
@@ -162,10 +162,10 @@ public class List extends HttpServlet {
 			pagebar += String.format("<li class='page-item disabled'><a class='page-link' href='#!'>Next</a> </li>");
 		} else {
 			if (isSearch.equals("y")) {
-				pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/list.do?marketinfo=%s&search=%s&isLike=%s&page=%d'>Next</a> </li>"
+				pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/list.do?marketinfo=%s&search=%s&isLike=%s&page=%d'><img src='/rural/assets/img/logo/next.png' style='width:14px;'/></a> </li>"
 						,marketinfo, search, isLike, n);
 			}else {
-				pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/list.do?page=%d'>Next</a> </li>"
+				pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/list.do?page=%d'><img src='/rural/assets/img/logo/next.png' style='width:14px;'/></a> </li>"
 						, n);
 			}
 		}
@@ -173,6 +173,9 @@ public class List extends HttpServlet {
 
 		pagebar += "</ul>\r\n"
 				+ "			</nav>";
+
+		//좋아요 하트 체크 여부 확인
+		ArrayList<LikeDTO> likelist = dao.likelist(id);
 
 
 
@@ -182,6 +185,7 @@ public class List extends HttpServlet {
 		//3.
 		req.setAttribute("list", list);
 		req.setAttribute("map", map);
+		req.setAttribute("likelist", likelist);
 
 		req.setAttribute("totalCount", totalCount);
 		req.setAttribute("totalPage", totalPage);

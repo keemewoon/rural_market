@@ -111,6 +111,7 @@ table>tbody>tr:nth-child(2)>th {
 	font-size: 30px;
 }
 </style>
+<script type="text/JavaScript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 </head>
 <body>
 
@@ -179,11 +180,24 @@ table>tbody>tr:nth-child(2)>th {
 						</tr>
 						<tr>
 							<th>공유</th>
-							<td><iframe
-									src="https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2Flocalhost%3A8090%2Frural%2Fmarket%2Fview.do&layout=button&size=large&width=92&height=28&appId"
-									width="92" height="28" style="border: none; overflow: hidden"
-									scrolling="no" frameborder="0" allowfullscreen="true"
-									allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+							<td>
+								<!-- naver --> <span> <script type="text/javascript"
+										src="https://ssl.pstatic.net/share/js/naver_sharebutton.js"></script>
+									<script type="text/javascript">
+                        new ShareNaver.makeButton({"type": "f"});
+                     </script>
+							</span> <!-- kakao --> <img
+								src="/rural/assets/img/logo/kakao.png"
+								style="width: 40px; margin-left: 10px; cursor: pointer;"
+								id="btnKakao"
+								onClick="shareKakao();" />
+
+								<!-- twitter --> <img
+								src="/rural/assets/img/logo/twitter.png"
+								style="width: 40px; margin-left: 10px; cursor: pointer;"
+								onclick="shareTwitter();"> </span>
+
+
 							</td>
 							<td></td>
 						</tr>
@@ -440,6 +454,36 @@ table>tbody>tr:nth-child(2)>th {
 
        }
     }
+
+    function shareTwitter() {
+        var sendText = "슬기로운 농촌생활"; // 전달할 텍스트
+        var sendUrl = "/rural/market/view.do?seq=${dto.seq}/"; // 전달할 URL
+        window.open("https://twitter.com/intent/tweet?text=" + sendText + "&url=" + sendUrl);
+    }
+
+
+    /* 카카오 */
+    function shareKakao() {
+
+  // 사용할 앱의 JavaScript 키 설정
+  Kakao.init('eeafda384681d9c8849627417732b4cc');
+
+  // 카카오링크 버튼 생성
+  Kakao.Link.createDefaultButton({
+    container: '#btnKakao', // 카카오공유버튼ID
+    objectType: 'feed',
+    content: {
+      title: "${dto.brandName}", // 보여질 제목
+      description: "${dto.detail}", // 보여질 설명
+      imageUrl:'http://k.kakaocdn.net/dn/b4ZDkL/btraWuquBQG/BqAj3eUu7p0Yz3XeIjzwu0/kakaolink40_original.jpg', // 콘텐츠 URL
+      link: {
+         mobileWebUrl: "devpad.tistory.com/",
+         webUrl: "devpad.tistory.com/"
+      }
+    }
+  });
+}
+
 
 	</script>
 </body>

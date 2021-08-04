@@ -88,6 +88,22 @@ table tr th {
 	display: block;
 }
 
+#isLike {
+	width: 20px;
+	height:20px;
+}
+
+#menubox #navibar .active {
+    border-radius: 10%;
+    background-color: #EEE;
+}
+
+#menubox #navibar .disabled:hover {
+    background-color: #EEE;
+}
+
+
+
 
 </style>
 </head>
@@ -160,16 +176,10 @@ table tr th {
 
 								<div id="menubox">
 									<ul class="nav nav-tabs" id="navibar">
-										<li class="nav-item"><a class="nav-link active"
-											href="/rural/market/list.do">전체보기</a></li>
-										<li class="nav-item"><a class="nav-link active"
-											href="/rural/market/list.do?marketinfo=쌀/잡곡&search=${ map.search }&isLike=${ map.isLike }">
-												쌀/잡곡</a></li>
-										<li class="nav-item"><a class="nav-link active"
-											href="/rural/market/list.do?marketinfo=과일/견과&search=${ map.search }&isLike=${ map.isLike }">
-												과일/견과</a></li>
-										<li class="nav-item"><a class="nav-link active"
-											href="/rural/market/list.do?marketinfo=채소/버섯&search=${ map.search }&isLike=${ map.isLike }">
+										<li class="nav-item"><a class="nav-link active" href="/rural/market/list.do">전체보기</a></li>
+										<li class="nav-item"><a class="nav-link active" href="/rural/market/list.do?marketinfo=쌀/잡곡&search=${ map.search }&isLike=${ map.isLike }">쌀/잡곡</a></li>
+										<li class="nav-item"><a class="nav-link active"href="/rural/market/list.do?marketinfo=과일/견과&search=${ map.search }&isLike=${ map.isLike }">과일/견과</a></li>
+										<li class="nav-item"><a class="nav-link active"href="/rural/market/list.do?marketinfo=채소/버섯&search=${ map.search }&isLike=${ map.isLike }">
 												채소/버섯</a></li>
 										<li class="nav-item"><a class="nav-link active"
 											href="/rural/market/list.do?marketinfo=정육/계란&search=${ map.search }&isLike=${ map.isLike }">
@@ -188,9 +198,9 @@ table tr th {
 
 
 
+							<!-- 관심내역 체크 -->
 							<div class="row justify-content-between"
 								style="padding: 15px; margin-top: 20px;">
-								<!-- 관심내sss역 라디오박스 -->
 								<div>
 									<input type="checkbox" id="isLike" name="isLike" <c:if test="${map.isLike eq 'y'}">checked</c:if> /> <label for="likeList" style="margin-left: 15px;">관심내역 보기 </label>
 								</div>
@@ -227,22 +237,23 @@ table tr th {
 														class="img">
 												</div>
 												<div class="place-cap">
-													<div class="place-cap-top d-flex">
+													<div class="place-cap-top d-flex img-section">
 														<h3>
 															<a href="/rural/market/view.do?seq=${dto.seq}">${dto.brandName}</a>
 														</h3>
-
 														<!-- 좋아요 기능 -->
-														<c:if test="${map.isLike eq 'n'}">
-															<img src="/rural/assets/img/market/unlike.png"
+														<img src="/rural/assets/img/market/unlike.png" id="like"
+															name="like" class='ml-auto p-2 like' style="display: none;"
+															onclick="location.href='/rural/market/likeok.do?seq=${dto.seq}';">
+
+														<c:forEach items="${likelist}" var="ldto">
+															<c:if test="${dto.seq == ldto.seq && id == ldto.id}">
+															<img src="/rural/assets/img/market/like.png"
 																id="unlike" name="unlike" class='ml-auto p-2 like'
-																onclick="location.href='/rural/market/likeok.do?seq=${dto.seq}';">
-														</c:if>
-														<c:if test="${map.isLike eq 'y'}">
-															<img src="/rural/assets/img/market/like.png" id="like"
-																name="like" class='ml-auto p-2 like'
 																onclick="location.href='/rural/market/likedel.do?seq=${dto.seq}';">
-														</c:if>
+															</c:if>
+														</c:forEach>
+
 														<input type="hidden" name="seq" value="${dto.seq}">
 
 													</div>
@@ -261,6 +272,8 @@ table tr th {
 												</div>
 											</div>
 										</div>
+
+
 									</c:forEach>
 
 									<!-- 페이징바 -->
@@ -299,6 +312,13 @@ table tr th {
 		});
 
 
+		$(document).ready(function(){
+			$(".img-section").each(function(index, item) {
+				if ($(item).children().length == 3 ) {
+					$(item).children().eq(1).css("display", "block");
+				}
+			});
+		});
 
 
 	</script>

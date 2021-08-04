@@ -39,7 +39,7 @@ public class AddList extends HttpServlet {
 		int end = 0; // 가져올 게시물 끝 위치
 		int n = 0; // 페이지바 제작
 		int loop = 0; // 페이지바 제작
-		int blockSize = 10; // 페이지바 제작
+		int blockSize = 5; // 페이지바 제작
 
 
 		//이제 페이지 번호를 넣어서 부를거야
@@ -89,10 +89,10 @@ public class AddList extends HttpServlet {
 
 		if( n == 1 ) {
 
-			pagebar += String.format("<li class='page-item disabled'><a class='page-link' href='#!' >Previous</a></li>" );
+			pagebar += String.format("<li class='page-item disabled'><a class='page-link' href='#!' ><img src='/rural/assets/img/logo/previous.png' style='width:14px;'/></a></li>" );
 
 		} else {
-			pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/addlist.do?page=%d' tabindex='-1'>Previous</a></li>"
+			pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/addlist.do?page=%d' tabindex='-1'><img src='/rural/assets/img/logo/previous.png' style='width:14px;'/></a></li>"
 										, n-1);
 		}		if(totalPage == 0) {
 			pagebar += "<li class='active'><a href='#!'>1</a></li>";
@@ -115,9 +115,9 @@ public class AddList extends HttpServlet {
 
 
 		if( n > totalPage ) {
-			pagebar += String.format("<li class='page-item disabled'><a class='page-link' href='#!'>Next</a> </li>", blockSize );
+			pagebar += String.format("<li class='page-item disabled'><a class='page-link' href='#!'><img src='/rural/assets/img/logo/next.png' style='width:14px;'/></a> </li>", blockSize );
 		} else {
-			pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/addlist.do?page=%d'>Next</a> </li>", n, blockSize );
+			pagebar += String.format("<li class='page-item'><a class='page-link' href='/rural/market/addlist.do?page=%d'><img src='/rural/assets/img/logo/next.png' style='width:14px;'/></a> </li>", n, blockSize );
 		}
 
 
