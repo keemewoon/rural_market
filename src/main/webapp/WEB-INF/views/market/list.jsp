@@ -30,8 +30,8 @@ h3 {
 }
 .favourite-place .single-place .place-img img {
 	object-fit: cover;
-	width: auto;
-	height: 100%;
+	width: 100%;
+	height: auto;
 	text-aling: center;
 	-webkit-transform: scale 1;
 	-moz-transform: scale 1;
@@ -133,7 +133,7 @@ table tr th {
 					</tr>
 				</table>
 
-				<div class="row justify-content-md-center"
+				<div class="row justify-content-md-center" id="scrollbox"
 					style="margin-bottom: 30px;">
 					<input class="btn btn-success col-sm-2" type="submit"
 						value="검색하기">
@@ -164,77 +164,77 @@ table tr th {
 
 					<c:if test="${ not empty marketinfo }">
 						<li class="nav-item"><a class="nav-link disabled"
-							href="/rural/market/list.do">전체보기</a></li>
+							href="/rural/market/list.do#scrollbox">전체보기</a></li>
 					</c:if>
 
 
 					<c:if test="${ empty marketinfo }">
 						<li class="nav-item"><a class="nav-link active"
-							href="/rural/market/list.do">전체보기</a></li>
+							href="/rural/market/list.do#scrollbox">전체보기</a></li>
 					</c:if>
 
 					<c:if test="${ marketinfo != '쌀/잡곡' }">
 						<li class="nav-item"><a class="nav-link disabled"
-							href="/rural/market/list.do?marketinfo=쌀/잡곡&search=${ search }&isLike=${ isLike }">쌀/잡곡</a></li>
+							href="/rural/market/list.do?marketinfo=쌀/잡곡&search=${ search }&isLike=${ isLike }#scrollbox">쌀/잡곡</a></li>
 					</c:if>
 					<c:if test="${ marketinfo == '쌀/잡곡'}">
 						<li class="nav-item"><a class="nav-link active"
-							href="/rural/market/list.do?marketinfo=쌀/잡곡&search=${ search }&isLike=${ isLike }">쌀/잡곡</a></li>
+							href="/rural/market/list.do?marketinfo=쌀/잡곡&search=${ search }&isLike=${ isLike }#scrollbox">쌀/잡곡</a></li>
 					</c:if>
 
 					<c:if test="${ marketinfo != '과일/견과'}">
 						<li class="nav-item"><a class="nav-link disabled"
-							href="/rural/market/list.do?marketinfo=과일/견과&search=${ map.search }&isLike=${ map.isLike }">과일/견과</a></li>
+							href="/rural/market/list.do?marketinfo=과일/견과&search=${ map.search }&isLike=${ map.isLike }#scrollbox">과일/견과</a></li>
 					</c:if>
 					<c:if test="${ marketinfo == '과일/견과'}">
 						<li class="nav-item"><a class="nav-link active"
-							href="/rural/market/list.do?marketinfo=과일/견과&search=${ map.search }&isLike=${ map.isLike }">과일/견과</a></li>
+							href="/rural/market/list.do?marketinfo=과일/견과&search=${ map.search }&isLike=${ map.isLike }#scrollbox">과일/견과</a></li>
 					</c:if>
 
 
 					<c:if test="${ marketinfo != '채소/버섯'}">
 						<li class="nav-item"><a class="nav-link disabled"
-							href="/rural/market/list.do?marketinfo=채소/버섯&search=${ map.search }&isLike=${ map.isLike }">채소/버섯</a></li>
+							href="/rural/market/list.do?marketinfo=채소/버섯&search=${ map.search }&isLike=${ map.isLike }#scrollbox">채소/버섯</a></li>
 					</c:if>
 					<c:if test="${ marketinfo == '채소/버섯'}">
 						<li class="nav-item"><a class="nav-link active"
-							href="/rural/market/list.do?marketinfo=채소/버섯&search=${ map.search }&isLike=${ map.isLike }">채소/버섯</a></li>
+							href="/rural/market/list.do?marketinfo=채소/버섯&search=${ map.search }&isLike=${ map.isLike }#scrollbox">채소/버섯</a></li>
 					</c:if>
 
 					<c:if test="${ marketinfo != '정육/계란'}">
 						<li class="nav-item"><a class="nav-link disabled"
-						href="/rural/market/list.do?marketinfo=정육/계란&search=${ map.search }&isLike=${ map.isLike }">정육/계란</a></li>
+						href="/rural/market/list.do?marketinfo=정육/계란&search=${ map.search }&isLike=${ map.isLike }#scrollbox">정육/계란</a></li>
 					</c:if>
 					<c:if test="${ marketinfo == '정육/계란'}">
 						<li class="nav-item"><a class="nav-link active"
-						href="/rural/market/list.do?marketinfo=정육/계란&search=${ map.search }&isLike=${ map.isLike }">정육/계란</a></li>
+						href="/rural/market/list.do?marketinfo=정육/계란&search=${ map.search }&isLike=${ map.isLike }#scrollbox">정육/계란</a></li>
 					</c:if>
 
 					<c:if test="${ marketinfo != '김치' }">
 						<li class="nav-item"><a class="nav-link disabled"
-							href="/rural/market/list.do?marketinfo=김치&search=${ map.search }&isLike=${ map.isLike }">김치</a></li>
+							href="/rural/market/list.do?marketinfo=김치&search=${ map.search }&isLike=${ map.isLike }#scrollbox">김치</a></li>
 					</c:if>
 					<c:if test="${ marketinfo == '김치' }">
 						<li class="nav-item"><a class="nav-link active"
-							href="/rural/market/list.do?marketinfo=김치&search=${ map.search }&isLike=${ map.isLike }">김치</a></li>
+							href="/rural/market/list.do?marketinfo=김치&search=${ map.search }&isLike=${ map.isLike }#scrollbox">김치</a></li>
 					</c:if>
 
 					<c:if test="${ marketinfo != '홍삼/건강식품' }">
 						<li class="nav-item"><a class="nav-link disabled"
-							href="/rural/market/list.do?marketinfo=홍삼/건강식품&search=${ map.search }&isLike=${ map.isLike }">홍삼/건강식품</a></li>
+							href="/rural/market/list.do?marketinfo=홍삼/건강식품&search=${ map.search }&isLike=${ map.isLike }#scrollbox">홍삼/건강식품</a></li>
 					</c:if>
 					<c:if test="${ marketinfo == '홍삼/건강식품' }">
 						<li class="nav-item"><a class="nav-link active"
-							href="/rural/market/list.do?marketinfo=홍삼/건강식품&search=${ map.search }&isLike=${ map.isLike }">홍삼/건강식품</a></li>
+							href="/rural/market/list.do?marketinfo=홍삼/건강식품&search=${ map.search }&isLike=${ map.isLike }#scrollbox">홍삼/건강식품</a></li>
 					</c:if>
 
 					<c:if test="${ marketinfo != '전통주' }">
 						<li class="nav-item"><a class="nav-link disabled"
-							href="/rural/market/list.do?marketinfo=전통주&search=${ map.search }&isLike=${ map.isLike }">전통주</a></li>
+							href="/rural/market/list.do?marketinfo=전통주&search=${ map.search }&isLike=${ map.isLike }#scrollbox">전통주</a></li>
 					</c:if>
 					<c:if test="${ marketinfo == '전통주' }">
 						<li class="nav-item"><a class="nav-link active"
-							href="/rural/market/list.do?marketinfo=전통주&search=${ map.search }&isLike=${ map.isLike }">전통주</a></li>
+							href="/rural/market/list.do?marketinfo=전통주&search=${ map.search }&isLike=${ map.isLike }#scrollbox">전통주</a></li>
 					</c:if>
 
 				</ul>
@@ -284,15 +284,16 @@ table tr th {
 													<div class="place-cap-top d-flex img-section">
 														<h3>
 															<a href="/rural/market/view.do?seq=${dto.seq}">${dto.brandName}</a>
+
 														</h3>
 														<!-- 좋아요 기능 -->
 														<img src="/rural/assets/img/market/unlike.png" id="like"
 															name="like" class='ml-auto p-2 like' style="display: none;"
 															onclick="location.href='/rural/market/likeok.do?seq=${dto.seq}';">
 
+
 														<c:forEach items="${likelist}" var="ldto">
 															<c:if test="${dto.seq == ldto.seq && id == ldto.id}">
-
 															<img src="/rural/assets/img/market/like.png"
 																id="unlike" name="unlike" class='ml-auto p-2 like'
 																onclick="location.href='/rural/market/likedel.do?seq=${dto.seq}';">
@@ -354,6 +355,7 @@ table tr th {
 		    });
 		});
 
+		/* 좋아요 토글 */
 		$(document).ready(function(){
 			$(".img-section").each(function(index, item) {
 				if ($(item).children().length == 3 ) {

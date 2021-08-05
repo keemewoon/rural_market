@@ -22,8 +22,7 @@ public class List extends HttpServlet {
 		//세션에 저장되어있는 id가져오기 -> 관심내역보기에 쓰기위함
 		HttpSession session = req.getSession();
 		String id = (String)session.getAttribute("id");
-		/*
-		 * System.out.println("아이디:" + id);
+		/*		 * System.out.println("아이디:" + id);
 		 */
 
 
@@ -176,6 +175,7 @@ public class List extends HttpServlet {
 
 		//좋아요 하트 체크 여부 확인
 		ArrayList<LikeDTO> likelist = dao.likelist(id);
+		System.out.println("likelist"+likelist);
 
 
 

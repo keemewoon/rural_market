@@ -40,6 +40,11 @@ public class View extends HttpServlet {
 
 		//좋아요 몇개인지 불러오기
 		int cnt = dao.likecnt(seq);
+		String detail = dto.getDetail();
+
+		detail = detail.replace("\r\n", "<br>");
+
+		dto.setDetail(detail);
 
 
 		//3.
